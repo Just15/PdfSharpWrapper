@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Authors>Just15</Authors>
+    <Company>Just15</Company>
+    <Version>0.0.1</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Just15/PdfSharpWrapper</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Just15/PdfSharpWrapper</RepositoryUrl>
+    <PackageTags>PDF PdfSharp PDFsharp</PackageTags>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
