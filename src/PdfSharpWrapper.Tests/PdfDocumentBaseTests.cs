@@ -9,13 +9,13 @@ namespace PdfSharpWrapper.Tests
     [TestFixture]
     public class PdfDocumentBaseTests
     {
-        Mock<ILogger<TestPdfDocumentBase>> mockLogger;
+        Mock<ILogger<PdfDocumentBase>> mockLogger;
         private TestPdfDocumentBase testPdfDocumentBase;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            mockLogger = new Mock<ILogger<TestPdfDocumentBase>>();
+            mockLogger = new Mock<ILogger<PdfDocumentBase>>();
             testPdfDocumentBase = new TestPdfDocumentBase(mockLogger.Object);
         }
 
