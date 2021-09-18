@@ -9,14 +9,14 @@ namespace PdfSharpWrapper.Tests
     [TestFixture]
     public class PdfDocumentBaseTests
     {
-        Mock<ILogger<PdfDocumentBase>> mockLogger;
-        private PdfDocumentBase pdfDocumentBase;
+        Mock<ILogger<TestPdfDocumentBase>> mockLogger;
+        private TestPdfDocumentBase testPdfDocumentBase;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            mockLogger = new Mock<ILogger<PdfDocumentBase>>();
-            pdfDocumentBase = new PdfDocumentBase(mockLogger.Object);
+            mockLogger = new Mock<ILogger<TestPdfDocumentBase>>();
+            testPdfDocumentBase = new TestPdfDocumentBase(mockLogger.Object);
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace PdfSharpWrapper.Tests
             // ARRANGE
             // ACT
             // ASSERT
-            Assert.Throws<DirectoryNotFoundException>(() => pdfDocumentBase.Open(fileName),
+            Assert.Throws<DirectoryNotFoundException>(() => testPdfDocumentBase.Open(fileName),
                 $"Could not find a part of the path '{fileName}'.");
         }
 
@@ -47,7 +47,7 @@ namespace PdfSharpWrapper.Tests
                 }
 
                 // ACT
-                pdfDocument = pdfDocumentBase.Open(fileName);
+                pdfDocument = testPdfDocumentBase.Open(fileName);
 
                 // ASSERT
                 Assert.IsNull(pdfDocument);
@@ -66,7 +66,7 @@ namespace PdfSharpWrapper.Tests
 
             // ARRANGE
             // ACT
-            var pdfDocument = pdfDocumentBase.TryOpen(fileName);
+            var pdfDocument = testPdfDocumentBase.TryOpen(fileName);
 
             // ASSERT
             Assert.IsNull(pdfDocument);
@@ -78,11 +78,16 @@ namespace PdfSharpWrapper.Tests
         {
             // ARRANGE
             // ACT
-            var pdfDocument = pdfDocumentBase.TryOpen(PdfSharpWrapperSetupFixture.PdfTestTemplateSecuredFilePath);
+            var pdfDocument = testPdfDocumentBase.TryOpen(PdfSharpWrapperSetupFixture.PdfTestTemplateSecuredFilePath);
 
             // ASSERT
             Assert.IsNull(pdfDocument);
             mockLogger.VerifyLogging($"Exception trying to open '{PdfSharpWrapperSetupFixture.PdfTestTemplateSecuredFilePath}'.", LogLevel.Error, Times.Once);
+        }
+
+        private class TestPdfDocumentBase : PdfDocumentBase
+        {
+            public TestPdfDocumentBase(ILogger logger) : base(logger) { }
         }
     }
 }

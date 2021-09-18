@@ -6,7 +6,7 @@ using System.IO;
 
 namespace PdfSharpWrapper
 {
-    public class PdfDocumentBase
+    public abstract class PdfDocumentBase
     {
         protected readonly ILogger logger;
 
