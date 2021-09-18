@@ -15,41 +15,41 @@ namespace PdfSharpWrapper
             this.logger = logger;
         }
 
-        public PdfDocument Open(string pdfFilePath)
+        public PdfDocument Open(string filePath)
         {
             PdfDocument pdfDocument;
 
-            using (pdfDocument = PdfReader.Open(pdfFilePath))
+            using (pdfDocument = PdfReader.Open(filePath))
             {
                 if (pdfDocument.AcroForm == null)
                 {
                     pdfDocument = null;
-                    logger.LogError($"'{nameof(PdfDocument.AcroForm)}' is null in '{pdfFilePath}'.");
+                    logger.LogError($"'{nameof(PdfDocument.AcroForm)}' is null in '{filePath}'.");
                 }
             }
 
             return pdfDocument;
         }
 
-        public PdfDocument TryOpen(string pdfFilePath)
+        public PdfDocument TryOpen(string filePath)
         {
             PdfDocument pdfDocument = null;
 
-            if (File.Exists(pdfFilePath))
+            if (File.Exists(filePath))
             {
                 try
                 {
-                    pdfDocument = Open(pdfFilePath);
+                    pdfDocument = Open(filePath);
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, $"Exception trying to open '{pdfFilePath}'.");
+                    logger.LogError(ex, $"Exception trying to open '{filePath}'.");
                 }
 
             }
             else
             {
-                logger.LogError($"The file '{pdfFilePath}' does not exist.");
+                logger.LogError($"The file '{filePath}' does not exist.");
             }
 
             return pdfDocument;

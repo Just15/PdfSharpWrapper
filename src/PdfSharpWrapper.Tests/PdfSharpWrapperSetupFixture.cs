@@ -8,6 +8,7 @@ namespace PdfSharpWrapper.Tests
     public class PdfSharpWrapperSetupFixture
     {
         internal static readonly string BaseProjectDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\.."));
+        internal static readonly string PdfTestTemplateFilePath = Path.Combine(BaseProjectDirectory, "PdfTestTemplate.pdf");
         internal static readonly string PdfTestTemplateSecuredFilePath = Path.Combine(BaseProjectDirectory, "PdfTestTemplate_Secured.pdf");
 
         [OneTimeSetUp]
