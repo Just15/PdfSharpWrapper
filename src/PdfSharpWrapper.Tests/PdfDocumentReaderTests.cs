@@ -2,15 +2,14 @@
 using Moq;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 
 namespace PdfSharpWrapper.Tests
 {
     [TestFixture]
     public class PdfDocumentReaderTests
     {
-        Mock<ILogger<PdfDocumentReader>> mockLogger;
-        private static PdfDocumentReader pdfDocumentReader;
+        private Mock<ILogger<PdfDocumentReader>> mockLogger;
+        private PdfDocumentReader pdfDocumentReader;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -19,61 +18,58 @@ namespace PdfSharpWrapper.Tests
             pdfDocumentReader = new PdfDocumentReader(mockLogger.Object);
         }
 
-        [TestCaseSource(nameof(testCases))]
-        public void ReadTryRead_PdfTextField_AsExpected(Func<Dictionary<string, string>> func)
+        [TestCase(PdfSharpWrapperSetupFixture.TEXT_FIELD, "PDF Test Text")]
+        [TestCase(PdfSharpWrapperSetupFixture.EMPTY_TEXT_FIELD, null)]
+        public void Read_PdfTextField_AsExpected(string field, string expected)
+        {
+            // ARRANGE
+            // ACT
+            var actual = pdfDocumentReader.Read(PdfSharpWrapperSetupFixture.PdfTestTemplateFilePath)[field];
+
+            // ASSERT
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
+        [TestCase()]
+        public void Read_PdfCheckBoxField_AsExpected()
         {
             throw new NotImplementedException();
         }
 
-        [TestCaseSource(nameof(testCases))]
-        public void ReadTryRead_PdfCheckBoxField_AsExpected(Func<Dictionary<string, string>> func)
+        [TestCase()]
+        public void Read_PdfComboBoxField_AsExpected()
         {
             throw new NotImplementedException();
         }
 
-        [TestCaseSource(nameof(testCases))]
-        public void ReadTryRead_PdfComboBoxField_AsExpected(Func<Dictionary<string, string>> func)
+        [TestCase()]
+        public void Read_PdfListBoxField_AsExpected()
         {
             throw new NotImplementedException();
         }
 
-        [TestCaseSource(nameof(testCases))]
-        public void ReadTryRead_PdfListBoxField_AsExpected(Func<Dictionary<string, string>> func)
+        [TestCase()]
+        public void Read_PdfRadioButtonField_AsExpected()
         {
             throw new NotImplementedException();
         }
 
-        [TestCaseSource(nameof(testCases))]
-        public void ReadTryRead_PdfRadioButtonField_AsExpected(Func<Dictionary<string, string>> func)
+        [TestCase()]
+        public void Read_PdfSignatureField_AsExpected()
         {
             throw new NotImplementedException();
         }
 
-        [TestCaseSource(nameof(testCases))]
-        public void ReadTryRead_PdfSignatureField_AsExpected(Func<Dictionary<string, string>> func)
+        [TestCase()]
+        public void Read_PdfGenericField_AsExpected()
         {
             throw new NotImplementedException();
         }
 
-        [TestCaseSource(nameof(testCases))]
-        public void ReadTryRead_PdfGenericField_AsExpected(Func<Dictionary<string, string>> func)
+        [TestCase()]
+        public void Read_PdfPushButtonField_AsExpected()
         {
             throw new NotImplementedException();
-        }
-
-        [TestCaseSource(nameof(testCases))]
-        public void ReadTryRead_PdfPushButtonField_AsExpected(Func<Dictionary<string, string>> func)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static IEnumerable<Func<Dictionary<string, string>>> testCases
-        {
-            get
-            {
-                yield return () => pdfDocumentReader.Read(PdfSharpWrapperSetupFixture.PdfTestTemplateFilePath);
-                yield return () => pdfDocumentReader.TryRead(PdfSharpWrapperSetupFixture.PdfTestTemplateFilePath);
-            }
         }
     }
 }

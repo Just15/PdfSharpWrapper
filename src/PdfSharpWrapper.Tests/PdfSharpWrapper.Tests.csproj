@@ -18,4 +18,16 @@
     <ProjectReference Include="..\..\src\PdfSharpWrapper\PdfSharpWrapper.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="PdfTestTemplate.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="PdfTestTemplate_ReadOnly.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="PdfTestTemplate_Secured.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
