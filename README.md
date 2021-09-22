@@ -1,5 +1,7 @@
 # PdfSharpWrapper
 
+https://www.pdfescape.com/open/
+
 Open a PDF document using TryOpen() or Open().
 ```
 PdfDocumentReader pdfDocumentReader = new PdfDocumentReader(loggerFactory.CreateLogger<PdfDocumentReader>());
