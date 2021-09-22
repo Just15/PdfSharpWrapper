@@ -19,49 +19,49 @@ namespace PdfSharpWrapper.Tests
         }
 
         [TestCase()]
-        public void Read_PdfTextField_AsExpected(string field, string expected)
+        public void Write_PdfTextField_AsExpected(string field, string expected)
         {
             throw new NotImplementedException();
         }
 
         [TestCase()]
-        public void Read_PdfCheckBoxField_AsExpected()
+        public void Write_PdfCheckBoxField_AsExpected()
         {
             throw new NotImplementedException();
         }
 
         [TestCase()]
-        public void Read_PdfComboBoxField_AsExpected()
+        public void Write_PdfComboBoxField_AsExpected()
         {
             throw new NotImplementedException();
         }
 
         [TestCase()]
-        public void Read_PdfListBoxField_AsExpected()
+        public void Write_PdfListBoxField_AsExpected()
         {
             throw new NotImplementedException();
         }
 
         [TestCase()]
-        public void Read_PdfRadioButtonField_AsExpected()
+        public void Write_PdfRadioButtonField_AsExpected()
         {
             throw new NotImplementedException();
         }
 
         [TestCase()]
-        public void Read_PdfSignatureField_AsExpected()
+        public void Write_PdfSignatureField_AsExpected()
         {
             throw new NotImplementedException();
         }
 
         [TestCase()]
-        public void Read_PdfGenericField_AsExpected()
+        public void Write_PdfGenericField_AsExpected()
         {
             throw new NotImplementedException();
         }
 
         [TestCase()]
-        public void Read_PdfPushButtonField_AsExpected()
+        public void Write_PdfPushButtonField_AsExpected()
         {
             throw new NotImplementedException();
         }
