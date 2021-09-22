@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using PdfReaderWriter;
 using PdfSharpCore.Pdf;
+using PdfSharpCore.Pdf.AcroForms;
 using System.Collections.Generic;
 
 namespace PdfSharpWrapper
@@ -14,12 +15,23 @@ namespace PdfSharpWrapper
 
         public Dictionary<string, string> Read(string filePath)
         {
+            return Read(filePath, out _);
+        }
+
+        public Dictionary<string, string> Read(string filePath, out Dictionary<string, string> unexpectedFieldTypes)
+        {
             Dictionary<string, string> dictionary = null;
 
             using (var pdfDocument = Open(filePath))
             {
-                dictionary = DoRead(pdfDocument);
-                dictionary = new Dictionary<string, string> { { "a", "aa" } };
+                if (pdfDocument != null)
+                {
+                    dictionary = DoRead(pdfDocument, out unexpectedFieldTypes);
+                }
+                else
+                {
+                    unexpectedFieldTypes = null;
+                }
             }
 
             return dictionary;
@@ -27,20 +39,50 @@ namespace PdfSharpWrapper
 
         public Dictionary<string, string> TryRead(string filePath)
         {
+            return TryRead(filePath, out _);
+        }
+
+        public Dictionary<string, string> TryRead(string filePath, out Dictionary<string, string> unexpectedFieldTypes)
+        {
             Dictionary<string, string> dictionary = null;
 
             using (var pdfDocument = TryOpen(filePath))
             {
-                dictionary = DoRead(pdfDocument);
-                dictionary = new Dictionary<string, string> { { "b", "bb" } };
+                if (pdfDocument != null)
+                {
+                    dictionary = DoRead(pdfDocument, out unexpectedFieldTypes);
+                }
+                else
+                {
+                    unexpectedFieldTypes = null;
+                }
             }
 
             return dictionary;
         }
 
-        private Dictionary<string, string> DoRead(PdfDocument pdfDocument)
+        private Dictionary<string, string> DoRead(PdfDocument pdfDocument, out Dictionary<string, string> unexpectedFieldTypes)
         {
-            Dictionary<string, string> dictionary = null;
+            var dictionary = new Dictionary<string, string>();
+            unexpectedFieldTypes = new Dictionary<string, string>();
+            var fields = pdfDocument.AcroForm.Fields;
+
+            foreach (var fieldName in fields.Names)
+            {
+                var field = fields[fieldName];
+                switch (field)
+                {
+                    case PdfTextField text:
+                        var textValue = !string.IsNullOrWhiteSpace(text.Text) ? text.Text : null;
+                        dictionary.Add(fieldName, textValue);
+                        break;
+                    default:
+                        logger.LogError($"Unexpected field type of '{field.GetType()}' for '{fieldName}'.");
+                        unexpectedFieldTypes.Add(fieldName, field.GetType().ToString());
+                        break;
+                }
+            }
+
             return dictionary;
         }
     }
