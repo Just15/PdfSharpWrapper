@@ -12,18 +12,22 @@ namespace PdfSharpWrapper.Tests
     {
         private Mock<ILogger<PdfDocumentWriter>> mockLogger;
         private PdfDocumentWriter pdfDocumentWriter;
+        private PdfDocumentReader pdfDocumentReader;
+
+        private string TestFileName = $"Test-{PdfSharpWrapperSetupFixture.PdfTestTemplateFileName}";
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
             mockLogger = new Mock<ILogger<PdfDocumentWriter>>();
             pdfDocumentWriter = new PdfDocumentWriter(mockLogger.Object);
+            pdfDocumentReader = new PdfDocumentReader(new Mock<ILogger<PdfDocumentReader>>().Object);
         }
 
         [SetUp]
         public void SetUp()
         {
-            File.Copy(PdfSharpWrapperSetupFixture.PdfTestTemplateFileName, $"Test-{PdfSharpWrapperSetupFixture.PdfTestTemplateFileName}", true);
+            File.Copy(PdfSharpWrapperSetupFixture.PdfTestTemplateFileName, TestFileName, true);
         }
 
         [TestCase(PdfSharpWrapperSetupFixture.READ_ONLY_TEXT_FIELD)]
@@ -58,29 +62,57 @@ namespace PdfSharpWrapper.Tests
             mockLogger.VerifyLogging("Field is null for key: FieldThatDoesntExist.", LogLevel.Error, Times.Once);
         }
 
-        [Test]
-        public void Write_PdfTextField_AsExpected()
+        [TestCase(PdfSharpWrapperSetupFixture.TEXT_FIELD, "", null)]
+        [TestCase(PdfSharpWrapperSetupFixture.TEXT_FIELD, null, null)]
+        [TestCase(PdfSharpWrapperSetupFixture.TEXT_FIELD, "a1!", "a1!")]
+        [TestCase(PdfSharpWrapperSetupFixture.EMPTY_TEXT_FIELD, "", null)]
+        [TestCase(PdfSharpWrapperSetupFixture.EMPTY_TEXT_FIELD, null, null)]
+        [TestCase(PdfSharpWrapperSetupFixture.EMPTY_TEXT_FIELD, "a1!", "a1!")]
+        public void Write_PdfTextField_AsExpected(string field, string value, string expected)
         {
+            // ARRANGE
+            // ACT
+            pdfDocumentWriter.Write(TestFileName, new Dictionary<string, string>
+            {
+                { field, value }
+            });
+
+            var actual = pdfDocumentReader.Read(TestFileName)[field];
+
+            // ASSERT
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
         public void Write_PdfCheckBoxField_AsExpected()
         {
+            // ARRANGE
+            // ACT
+            // ASSERT
         }
 
         [Test]
         public void Write_PdfRadioButtonField_AsExpected()
         {
+            // ARRANGE
+            // ACT
+            // ASSERT
         }
 
         [Test]
         public void Write_PdfComboBoxField_AsExpected()
         {
+            // ARRANGE
+            // ACT
+            // ASSERT
         }
 
         [Test]
         public void Write_PdfListBoxField_AsExpected()
         {
+            // ARRANGE
+            // ACT
+            // ASSERT
         }
 
         [Test]

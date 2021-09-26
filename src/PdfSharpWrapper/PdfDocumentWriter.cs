@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using PdfReaderWriter;
 using PdfSharpCore.Pdf;
+using PdfSharpCore.Pdf.AcroForms;
 using System.Collections.Generic;
 
 namespace PdfSharpWrapper
@@ -72,17 +73,20 @@ namespace PdfSharpWrapper
                 }
                 else
                 {
-                    //switch (field)
-                    //{
-                    //    case PdfTextField text:
-                    //        var textPdfValue = dictionary[field.Name];
-                    //        text.Value = new PdfString(textPdfValue);
-                    //        break;
-                    //    default:
-                    //        break;
-                    //}
+                    switch (field)
+                    {
+                        case PdfTextField text:
+                            var textPdfValue = dictionary[field.Name];
+                            text.Value = new PdfString(textPdfValue);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
+
+            PdfHelpers.SetNeedAppearances(pdfDocument);
+            pdfDocument.Save(pdfDocument.FullPath);
 
             return true;
         }
