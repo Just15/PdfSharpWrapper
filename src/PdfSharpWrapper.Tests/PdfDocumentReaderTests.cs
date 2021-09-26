@@ -30,43 +30,39 @@ namespace PdfSharpWrapper.Tests
             Assert.That(actual, Is.EqualTo(expected));
         }
 
-        [TestCase()]
+        [Test]
         public void Read_PdfCheckBoxField_AsExpected()
         {
-            throw new NotImplementedException();
         }
 
-        [TestCase()]
+        [Test]
         public void Read_PdfComboBoxField_AsExpected()
         {
-            throw new NotImplementedException();
         }
 
-        [TestCase()]
+        [Test]
         public void Read_PdfListBoxField_AsExpected()
         {
-            throw new NotImplementedException();
         }
 
-        [TestCase()]
+        [Test]
         public void Read_PdfRadioButtonField_AsExpected()
         {
-            throw new NotImplementedException();
         }
 
-        [TestCase()]
+        [Test]
         public void Read_PdfSignatureField_AsExpected()
         {
             throw new NotImplementedException();
         }
 
-        [TestCase()]
+        [Test]
         public void Read_PdfGenericField_AsExpected()
         {
             throw new NotImplementedException();
         }
 
-        [TestCase()]
+        [Test]
         public void Read_PdfPushButtonField_AsExpected()
         {
             throw new NotImplementedException();

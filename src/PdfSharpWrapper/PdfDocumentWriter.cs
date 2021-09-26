@@ -12,18 +12,18 @@ namespace PdfSharpWrapper
             PdfHelpers.ExtendNet5EncodingSupport();
         }
 
-        public bool Write(string filePath, Dictionary<string, string> pdfDictionary)
+        public bool Write(string filePath, Dictionary<string, string> dictionary)
         {
-            return Write(filePath, pdfDictionary, out _);
+            return Write(filePath, dictionary, out _);
         }
 
-        public bool Write(string filePath, Dictionary<string, string> pdfDictionary, out Dictionary<string, string> unexpectedFieldTypes)
+        public bool Write(string filePath, Dictionary<string, string> dictionary, out Dictionary<string, string> unexpectedFieldTypes)
         {
             using (var pdfDocument = Open(filePath))
             {
                 if (pdfDocument != null)
                 {
-                    return DoWrite(pdfDocument, pdfDictionary, out unexpectedFieldTypes);
+                    return DoWrite(pdfDocument, dictionary, out unexpectedFieldTypes);
                 }
                 else
                 {
@@ -33,18 +33,18 @@ namespace PdfSharpWrapper
             }
         }
 
-        public bool TryWrite(string filePath, Dictionary<string, string> pdfDictionary)
+        public bool TryWrite(string filePath, Dictionary<string, string> dictionary)
         {
-            return TryWrite(filePath, pdfDictionary, out _);
+            return TryWrite(filePath, dictionary, out _);
         }
 
-        public bool TryWrite(string filePath, Dictionary<string, string> pdfDictionary, out Dictionary<string, string> unexpectedFieldTypes)
+        public bool TryWrite(string filePath, Dictionary<string, string> dictionary, out Dictionary<string, string> unexpectedFieldTypes)
         {
             using (var pdfDocument = TryOpen(filePath))
             {
                 if (pdfDocument != null)
                 {
-                    return DoWrite(pdfDocument, pdfDictionary, out unexpectedFieldTypes);
+                    return DoWrite(pdfDocument, dictionary, out unexpectedFieldTypes);
                 }
                 else
                 {
@@ -54,17 +54,17 @@ namespace PdfSharpWrapper
             }
         }
 
-        private bool DoWrite(PdfDocument pdfDocument, Dictionary<string, string> pdfDictionary, out Dictionary<string, string> unexpectedFieldTypes)
+        private bool DoWrite(PdfDocument pdfDocument, Dictionary<string, string> dictionary, out Dictionary<string, string> unexpectedFieldTypes)
         {
             unexpectedFieldTypes = new Dictionary<string, string>();
             var fields = pdfDocument.AcroForm.Fields;
 
-            foreach (var keyValuePair in pdfDictionary)
+            foreach (var keyValuePair in dictionary)
             {
                 var field = fields[keyValuePair.Key];
                 if (field == null)
                 {
-                    logger.LogError($"'{field.Name}' is null.");
+                    logger.LogError($"Field is null for key: {keyValuePair.Key}.");
                 }
                 else if (field.ReadOnly)
                 {
@@ -75,7 +75,7 @@ namespace PdfSharpWrapper
                     //switch (field)
                     //{
                     //    case PdfTextField text:
-                    //        var textPdfValue = pdfDictionary[field.Name];
+                    //        var textPdfValue = dictionary[field.Name];
                     //        text.Value = new PdfString(textPdfValue);
                     //        break;
                     //    default:
