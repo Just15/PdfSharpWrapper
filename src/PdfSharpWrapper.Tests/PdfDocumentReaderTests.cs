@@ -24,7 +24,7 @@ namespace PdfSharpWrapper.Tests
         {
             // ARRANGE
             // ACT
-            var actual = pdfDocumentReader.Read(PdfSharpWrapperSetupFixture.PdfTestTemplateFilePath)[field];
+            var actual = pdfDocumentReader.Read(PdfSharpWrapperSetupFixture.PdfTestTemplateFileName)[field];
 
             // ASSERT
             Assert.That(actual, Is.EqualTo(expected));
@@ -36,17 +36,17 @@ namespace PdfSharpWrapper.Tests
         }
 
         [Test]
+        public void Read_PdfRadioButtonField_AsExpected()
+        {
+        }
+
+        [Test]
         public void Read_PdfComboBoxField_AsExpected()
         {
         }
 
         [Test]
         public void Read_PdfListBoxField_AsExpected()
-        {
-        }
-
-        [Test]
-        public void Read_PdfRadioButtonField_AsExpected()
         {
         }
 

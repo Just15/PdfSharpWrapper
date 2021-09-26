@@ -3,6 +3,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace PdfSharpWrapper.Tests
 {
@@ -19,6 +20,12 @@ namespace PdfSharpWrapper.Tests
             pdfDocumentWriter = new PdfDocumentWriter(mockLogger.Object);
         }
 
+        [SetUp]
+        public void SetUp()
+        {
+            File.Copy(PdfSharpWrapperSetupFixture.PdfTestTemplateFileName, $"Test-{PdfSharpWrapperSetupFixture.PdfTestTemplateFileName}", true);
+        }
+
         [TestCase(PdfSharpWrapperSetupFixture.READ_ONLY_TEXT_FIELD)]
         [TestCase(PdfSharpWrapperSetupFixture.READ_ONLY_CHECK_BOX_FIELD)]
         [TestCase(PdfSharpWrapperSetupFixture.READ_ONLY_RADIO_BUTTON_FIELD)]
@@ -28,7 +35,7 @@ namespace PdfSharpWrapper.Tests
         {
             // ARRANGE
             // ACT
-            pdfDocumentWriter.Write(PdfSharpWrapperSetupFixture.PdfTestTemplateReadOnlyFilePath, new Dictionary<string, string>
+            pdfDocumentWriter.Write(PdfSharpWrapperSetupFixture.PdfTestTemplateReadOnlyFileName, new Dictionary<string, string>
             {
                 { field, "Test Text" }
             });
@@ -42,7 +49,7 @@ namespace PdfSharpWrapper.Tests
         {
             // ARRANGE
             // ACT
-            pdfDocumentWriter.Write(PdfSharpWrapperSetupFixture.PdfTestTemplateReadOnlyFilePath, new Dictionary<string, string>
+            pdfDocumentWriter.Write(PdfSharpWrapperSetupFixture.PdfTestTemplateReadOnlyFileName, new Dictionary<string, string>
             {
                 { "FieldThatDoesntExist", "Test Text" }
             });
@@ -62,17 +69,17 @@ namespace PdfSharpWrapper.Tests
         }
 
         [Test]
+        public void Write_PdfRadioButtonField_AsExpected()
+        {
+        }
+
+        [Test]
         public void Write_PdfComboBoxField_AsExpected()
         {
         }
 
         [Test]
         public void Write_PdfListBoxField_AsExpected()
-        {
-        }
-
-        [Test]
-        public void Write_PdfRadioButtonField_AsExpected()
         {
         }
 

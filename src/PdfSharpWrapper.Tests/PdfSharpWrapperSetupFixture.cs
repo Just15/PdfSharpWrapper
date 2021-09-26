@@ -1,12 +1,12 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Diagnostics;
-using System.IO;
 
 namespace PdfSharpWrapper.Tests
 {
     public class PdfSharpWrapperSetupFixture
     {
+        // AppContext.BaseDirectory
+
         // Text
         internal const string TEXT_FIELD = "textField";
         internal const string EMPTY_TEXT_FIELD = "emptyTextField";
@@ -32,9 +32,9 @@ namespace PdfSharpWrapper.Tests
         internal const string READ_ONLY_LIST_BOX_FIELD = "readOnlyListBoxField";
 
         // File Paths
-        internal static readonly string PdfTestTemplateFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PdfTestTemplate.pdf");
-        internal static readonly string PdfTestTemplateReadOnlyFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PdfTestTemplate_ReadOnly.pdf");
-        internal static readonly string PdfTestTemplateSecuredFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PdfTestTemplate_Secured.pdf");
+        internal static readonly string PdfTestTemplateFileName = "PdfTestTemplate.pdf";
+        internal static readonly string PdfTestTemplateReadOnlyFileName = "PdfTestTemplate_ReadOnly.pdf";
+        internal static readonly string PdfTestTemplateSecuredFileName = "PdfTestTemplate_Secured.pdf";
 
         [OneTimeSetUp]
         public void OneTimeSetUp()

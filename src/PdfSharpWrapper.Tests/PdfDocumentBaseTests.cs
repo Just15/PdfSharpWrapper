@@ -78,11 +78,11 @@ namespace PdfSharpWrapper.Tests
         {
             // ARRANGE
             // ACT
-            var pdfDocument = testPdfDocumentBase.TryOpen(PdfSharpWrapperSetupFixture.PdfTestTemplateSecuredFilePath);
+            var pdfDocument = testPdfDocumentBase.TryOpen(PdfSharpWrapperSetupFixture.PdfTestTemplateSecuredFileName);
 
             // ASSERT
             Assert.IsNull(pdfDocument);
-            mockLogger.VerifyLogging($"Exception trying to open '{PdfSharpWrapperSetupFixture.PdfTestTemplateSecuredFilePath}'.", LogLevel.Error, Times.Once);
+            mockLogger.VerifyLogging($"Exception trying to open '{PdfSharpWrapperSetupFixture.PdfTestTemplateSecuredFileName}'.", LogLevel.Error, Times.Once);
         }
 
         public class TestPdfDocumentBase : PdfDocumentBase
