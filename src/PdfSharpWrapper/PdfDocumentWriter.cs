@@ -18,17 +18,17 @@ namespace PdfSharpWrapper
             return Write(filePath, dictionary, out _);
         }
 
-        public bool Write(string filePath, Dictionary<string, string> dictionary, out Dictionary<string, string> unexpectedFieldTypes)
+        public bool Write(string filePath, Dictionary<string, string> dictionary, out List<string> errorMessages)
         {
             using (var pdfDocument = Open(filePath))
             {
                 if (pdfDocument != null)
                 {
-                    return DoWrite(pdfDocument, dictionary, out unexpectedFieldTypes);
+                    return DoWrite(pdfDocument, dictionary, out errorMessages);
                 }
                 else
                 {
-                    unexpectedFieldTypes = null;
+                    errorMessages = null;
                     return false;
                 }
             }
@@ -39,25 +39,25 @@ namespace PdfSharpWrapper
             return TryWrite(filePath, dictionary, out _);
         }
 
-        public bool TryWrite(string filePath, Dictionary<string, string> dictionary, out Dictionary<string, string> unexpectedFieldTypes)
+        public bool TryWrite(string filePath, Dictionary<string, string> dictionary, out List<string> errorMessages)
         {
             using (var pdfDocument = TryOpen(filePath))
             {
                 if (pdfDocument != null)
                 {
-                    return DoWrite(pdfDocument, dictionary, out unexpectedFieldTypes);
+                    return DoWrite(pdfDocument, dictionary, out errorMessages);
                 }
                 else
                 {
-                    unexpectedFieldTypes = null;
+                    errorMessages = null;
                     return false;
                 }
             }
         }
 
-        private bool DoWrite(PdfDocument pdfDocument, Dictionary<string, string> dictionary, out Dictionary<string, string> unexpectedFieldTypes)
+        private bool DoWrite(PdfDocument pdfDocument, Dictionary<string, string> dictionary, out List<string> errorMessages)
         {
-            unexpectedFieldTypes = new Dictionary<string, string>();
+            errorMessages = new List<string>();
             var fields = pdfDocument.AcroForm.Fields;
 
             foreach (var keyValuePair in dictionary)
@@ -65,11 +65,13 @@ namespace PdfSharpWrapper
                 var field = fields[keyValuePair.Key];
                 if (field == null)
                 {
-                    logger.LogError($"Field is null for key: {keyValuePair.Key}.");
+                    logger.LogInformation($"Field is null for key: {keyValuePair.Key}.");
+                    errorMessages.Add($"The field is null for key: {keyValuePair.Key}.");
                 }
                 else if (field.ReadOnly)
                 {
-                    logger.LogError($"'{field.Name}' is readonly.");
+                    logger.LogInformation($"'{field.Name}' is readonly.");
+                    errorMessages.Add($"'{field.Name}' is readonly.");
                 }
                 else
                 {
@@ -80,6 +82,8 @@ namespace PdfSharpWrapper
                             text.Value = new PdfString(textPdfValue);
                             break;
                         default:
+                            logger.LogError($"Unexpected field type of '{field.GetType()}' for '{keyValuePair.Key}'.");
+                            errorMessages.Add($"The field '{keyValuePair.Key}' is of unexpected type '{field.GetType()}'.");
                             break;
                     }
                 }

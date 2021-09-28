@@ -18,7 +18,7 @@ namespace PdfSharpWrapper
             return Read(filePath, out _);
         }
 
-        public Dictionary<string, string> Read(string filePath, out Dictionary<string, string> unexpectedFieldTypes)
+        public Dictionary<string, string> Read(string filePath, out List<string> errorMessages)
         {
             Dictionary<string, string> dictionary = null;
 
@@ -26,11 +26,11 @@ namespace PdfSharpWrapper
             {
                 if (pdfDocument != null)
                 {
-                    dictionary = DoRead(pdfDocument, out unexpectedFieldTypes);
+                    dictionary = DoRead(pdfDocument, out errorMessages);
                 }
                 else
                 {
-                    unexpectedFieldTypes = null;
+                    errorMessages = null;
                 }
             }
 
@@ -42,7 +42,7 @@ namespace PdfSharpWrapper
             return TryRead(filePath, out _);
         }
 
-        public Dictionary<string, string> TryRead(string filePath, out Dictionary<string, string> unexpectedFieldTypes)
+        public Dictionary<string, string> TryRead(string filePath, out List<string> errorMessages)
         {
             Dictionary<string, string> dictionary = null;
 
@@ -50,21 +50,21 @@ namespace PdfSharpWrapper
             {
                 if (pdfDocument != null)
                 {
-                    dictionary = DoRead(pdfDocument, out unexpectedFieldTypes);
+                    dictionary = DoRead(pdfDocument, out errorMessages);
                 }
                 else
                 {
-                    unexpectedFieldTypes = null;
+                    errorMessages = null;
                 }
             }
 
             return dictionary;
         }
 
-        private Dictionary<string, string> DoRead(PdfDocument pdfDocument, out Dictionary<string, string> unexpectedFieldTypes)
+        private Dictionary<string, string> DoRead(PdfDocument pdfDocument, out List<string> errorMessages)
         {
             var dictionary = new Dictionary<string, string>();
-            unexpectedFieldTypes = new Dictionary<string, string>();
+            errorMessages = new List<string>();
             var fields = pdfDocument.AcroForm.Fields;
 
             foreach (var fieldName in fields.Names)
@@ -78,7 +78,7 @@ namespace PdfSharpWrapper
                         break;
                     default:
                         logger.LogError($"Unexpected field type of '{field.GetType()}' for '{fieldName}'.");
-                        unexpectedFieldTypes.Add(fieldName, field.GetType().ToString());
+                        errorMessages.Add($"The field '{fieldName}' is of unexpected type '{field.GetType()}'.");
                         break;
                 }
             }
