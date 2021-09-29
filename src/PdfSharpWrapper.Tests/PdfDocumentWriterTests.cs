@@ -45,7 +45,7 @@ namespace PdfSharpWrapper.Tests
             });
 
             // ASSERT
-            mockLogger.VerifyLogging($"'{field}' is readonly.", LogLevel.Error, Times.Once);
+            mockLogger.VerifyLogging($"'{field}' is readonly.", LogLevel.Information, Times.Once);
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace PdfSharpWrapper.Tests
             });
 
             // ASSERT
-            mockLogger.VerifyLogging("Field is null for key: FieldThatDoesntExist.", LogLevel.Error, Times.Once);
+            mockLogger.VerifyLogging("Field is null for key: FieldThatDoesntExist.", LogLevel.Information, Times.Once);
         }
 
         [TestCase(PdfSharpWrapperSetupFixture.TEXT_FIELD, "", null)]
