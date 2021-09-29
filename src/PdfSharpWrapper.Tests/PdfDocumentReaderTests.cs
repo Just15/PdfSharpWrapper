@@ -30,12 +30,16 @@ namespace PdfSharpWrapper.Tests
             Assert.That(actual, Is.EqualTo(expected));
         }
 
-        [Test]
-        public void Read_PdfCheckBoxField_AsExpected()
+        [TestCase(PdfSharpWrapperSetupFixture.CHECK_BOX_FIELD, "True")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_CHECK_BOX_FIELD, "False")]
+        public void Read_PdfCheckBoxField_AsExpected(string field, string expected)
         {
             // ARRANGE
             // ACT
+            var actual = pdfDocumentReader.Read(PdfSharpWrapperSetupFixture.PdfTestTemplateFileName)[field];
+
             // ASSERT
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]

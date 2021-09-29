@@ -76,6 +76,10 @@ namespace PdfSharpWrapper
                         var textValue = !string.IsNullOrWhiteSpace(text.Text) ? text.Text : null;
                         dictionary.Add(fieldName, textValue);
                         break;
+                    case PdfCheckBoxField checkBox:
+                        var checkBoxValue = checkBox.Checked.ToString();
+                        dictionary.Add(fieldName, checkBoxValue);
+                        break;
                     default:
                         logger.LogError($"Unexpected field type of '{field.GetType()}' for '{fieldName}'.");
                         errorMessages.Add($"The field '{fieldName}' is of unexpected type '{field.GetType()}'.");

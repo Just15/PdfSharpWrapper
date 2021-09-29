@@ -14,7 +14,7 @@ namespace PdfSharpWrapper.Tests
         private PdfDocumentWriter pdfDocumentWriter;
         private PdfDocumentReader pdfDocumentReader;
 
-        private string TestFileName = $"Test-{PdfSharpWrapperSetupFixture.PdfTestTemplateFileName}";
+        private readonly string TestFileName = $"Test-{PdfSharpWrapperSetupFixture.PdfTestTemplateFileName}";
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -83,12 +83,27 @@ namespace PdfSharpWrapper.Tests
             Assert.That(actual, Is.EqualTo(expected));
         }
 
-        [Test]
-        public void Write_PdfCheckBoxField_AsExpected()
+        [TestCase(PdfSharpWrapperSetupFixture.CHECK_BOX_FIELD, "true", "True")]
+        [TestCase(PdfSharpWrapperSetupFixture.CHECK_BOX_FIELD, "false", "False")]
+        [TestCase(PdfSharpWrapperSetupFixture.CHECK_BOX_FIELD, "True", "True")]
+        [TestCase(PdfSharpWrapperSetupFixture.CHECK_BOX_FIELD, "False", "False")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_CHECK_BOX_FIELD, "true", "True")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_CHECK_BOX_FIELD, "false", "False")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_CHECK_BOX_FIELD, "True", "True")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_CHECK_BOX_FIELD, "False", "False")]
+        public void Write_PdfCheckBoxField_AsExpected(string field, string value, string expected)
         {
             // ARRANGE
             // ACT
+            pdfDocumentWriter.Write(TestFileName, new Dictionary<string, string>
+            {
+                { field, value }
+            });
+
+            var actual = pdfDocumentReader.Read(TestFileName)[field];
+
             // ASSERT
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]

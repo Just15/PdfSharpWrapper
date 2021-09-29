@@ -13,22 +13,22 @@ namespace PdfSharpWrapper.Tests
         internal const string READ_ONLY_TEXT_FIELD = "readOnlyTextField";
 
         // CheckBox
-        private const string CHECK_BOX_FIELD = "checkBoxField";
-        private const string UNCHECKED_CHECK_BOX_FIELD = "unCheckedCheckBoxField";
+        internal const string CHECK_BOX_FIELD = "checkBoxField";
+        internal const string UNCHECKED_CHECK_BOX_FIELD = "unCheckedCheckBoxField";
         internal const string READ_ONLY_CHECK_BOX_FIELD = "readOnlyCheckBoxField";
 
         // RadioButton
-        private const string RADIO_BUTTON_FIELD = "radioField";
+        internal const string RADIO_BUTTON_FIELD = "radioField";
         internal const string READ_ONLY_RADIO_BUTTON_FIELD = "readOnlyRadioField";
 
         // ComboBox
-        private const string COMBO_BOX_FIELD = "dropDownField";
-        private const string UNCHECKED_COMBO_BOX_FIELD = "unSelectedDropDownField";
+        internal const string COMBO_BOX_FIELD = "dropDownField";
+        internal const string UNCHECKED_COMBO_BOX_FIELD = "unSelectedDropDownField";
         internal const string READ_ONLY_COMBO_BOX_FIELD = "readOnlyDropDownField";
 
         // ListBox
-        private const string LIST_BOX_FIELD = "listBoxField";
-        private const string UNSELECTED_LIST_BOX_FIELD = "unSelectedListBoxField";
+        internal const string LIST_BOX_FIELD = "listBoxField";
+        internal const string UNSELECTED_LIST_BOX_FIELD = "unSelectedListBoxField";
         internal const string READ_ONLY_LIST_BOX_FIELD = "readOnlyListBoxField";
 
         // File Paths

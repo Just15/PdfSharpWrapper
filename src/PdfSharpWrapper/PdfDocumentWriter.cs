@@ -2,6 +2,7 @@
 using PdfReaderWriter;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.AcroForms;
+using System;
 using System.Collections.Generic;
 
 namespace PdfSharpWrapper
@@ -80,6 +81,11 @@ namespace PdfSharpWrapper
                         case PdfTextField text:
                             var textPdfValue = dictionary[field.Name];
                             text.Value = new PdfString(textPdfValue);
+                            break;
+                        case PdfCheckBoxField checkBox:
+                            var checkBoxPdfValue = dictionary[field.Name];
+                            var checkBoxValue = Convert.ToBoolean(checkBoxPdfValue);
+                            checkBox.Checked = checkBoxValue;
                             break;
                         default:
                             logger.LogError($"Unexpected field type of '{field.GetType()}' for '{keyValuePair.Key}'.");
