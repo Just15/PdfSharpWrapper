@@ -66,13 +66,15 @@ namespace PdfSharpWrapper
                 var field = fields[keyValuePair.Key];
                 if (field == null)
                 {
-                    logger.LogInformation($"Field is null for key: {keyValuePair.Key}.");
-                    errorMessages.Add($"The field is null for key: {keyValuePair.Key}.");
+                    var errorMessage = $"Field is null for key: {keyValuePair.Key}.";
+                    logger.LogInformation(errorMessage);
+                    errorMessages.Add(errorMessage);
                 }
                 else if (field.ReadOnly)
                 {
-                    logger.LogInformation($"'{field.Name}' is readonly.");
-                    errorMessages.Add($"'{field.Name}' is readonly.");
+                    var errorMessage = $"'{field.Name}' is readonly.";
+                    logger.LogInformation(errorMessage);
+                    errorMessages.Add(errorMessage);
                 }
                 else
                 {
@@ -88,8 +90,9 @@ namespace PdfSharpWrapper
                             checkBox.Checked = checkBoxValue;
                             break;
                         default:
-                            logger.LogError($"Unexpected field type of '{field.GetType()}' for '{keyValuePair.Key}'.");
-                            errorMessages.Add($"The field '{keyValuePair.Key}' is of unexpected type '{field.GetType()}'.");
+                            var errorMessage = $"Unexpected field type of '{field.GetType()}' for '{keyValuePair.Key}'.";
+                            logger.LogError(errorMessage);
+                            errorMessages.Add(errorMessage);
                             break;
                     }
                 }

@@ -81,8 +81,9 @@ namespace PdfSharpWrapper
                         dictionary.Add(fieldName, checkBoxValue);
                         break;
                     default:
-                        logger.LogError($"Unexpected field type of '{field.GetType()}' for '{fieldName}'.");
-                        errorMessages.Add($"The field '{fieldName}' is of unexpected type '{field.GetType()}'.");
+                        var errorMessage = $"Unexpected field type of '{field.GetType()}' for '{fieldName}'.";
+                        logger.LogError(errorMessage);
+                        errorMessages.Add(errorMessage);
                         break;
                 }
             }
