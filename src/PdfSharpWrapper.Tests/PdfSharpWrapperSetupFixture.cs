@@ -42,18 +42,5 @@ namespace PdfSharpWrapper.Tests
             Trace.Listeners.Clear();
             Trace.Listeners.Add(new ConsoleTraceListener());
         }
-
-        public static void StartPdf(string filePath)
-        {
-            using (var process = new Process())
-            {
-                process.StartInfo = new ProcessStartInfo(filePath)
-                {
-                    CreateNoWindow = true,
-                    UseShellExecute = true,
-                };
-                process.Start();
-            }
-        }
     }
 }
