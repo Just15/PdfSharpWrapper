@@ -125,12 +125,25 @@ namespace PdfSharpWrapper.Tests
             Assert.That(actual, Is.EqualTo(expected));
         }
 
-        [Test]
-        public void Write_PdfComboBoxField_AsExpected()
+        [TestCase(PdfSharpWrapperSetupFixture.COMBO_BOX_FIELD, "a", "a")]
+        [TestCase(PdfSharpWrapperSetupFixture.COMBO_BOX_FIELD, "b", "b")]
+        [TestCase(PdfSharpWrapperSetupFixture.COMBO_BOX_FIELD, "c", "c")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_COMBO_BOX_FIELD, "a", "a")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_COMBO_BOX_FIELD, "b", "b")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_COMBO_BOX_FIELD, "c", "c")]
+        public void Write_PdfComboBoxField_AsExpected(string field, string value, string expected)
         {
             // ARRANGE
+            pdfDocumentWriter.Write(testFileName, new Dictionary<string, string>
+            {
+                { field, value }
+            });
+
+            var actual = pdfDocumentReader.Read(testFileName)[field];
+
             // ACT
             // ASSERT
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]

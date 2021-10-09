@@ -53,12 +53,16 @@ namespace PdfSharpWrapper.Tests
             Assert.That(actual, Is.EqualTo(expected));
         }
 
-        [Test]
-        public void Read_PdfComboBoxField_AsExpected()
+        [TestCase(PdfSharpWrapperSetupFixture.COMBO_BOX_FIELD, "a")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_COMBO_BOX_FIELD, null)]
+        public void Read_PdfComboBoxField_AsExpected(string field, string expected)
         {
             // ARRANGE
             // ACT
+            var actual = pdfDocumentReader.Read(PdfSharpWrapperSetupFixture.PdfTestTemplateFileName)[field];
+
             // ASSERT
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
