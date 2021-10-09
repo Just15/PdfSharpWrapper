@@ -42,12 +42,15 @@ namespace PdfSharpWrapper.Tests
             Assert.That(actual, Is.EqualTo(expected));
         }
 
-        [Test]
-        public void Read_PdfRadioButtonField_AsExpected()
+        [TestCase(PdfSharpWrapperSetupFixture.RADIO_BUTTON_FIELD, "/Yes")]
+        public void Read_PdfRadioButtonField_AsExpected(string field, string expected)
         {
             // ARRANGE
             // ACT
+            var actual = pdfDocumentReader.Read(PdfSharpWrapperSetupFixture.PdfTestTemplateRadioSelectedYesFileName)[field];
+
             // ASSERT
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]

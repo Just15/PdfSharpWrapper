@@ -35,6 +35,7 @@ namespace PdfSharpWrapper.Tests
         internal static readonly string PdfTestTemplateFileName = "PdfTestTemplate.pdf";
         internal static readonly string PdfTestTemplateReadOnlyFileName = "PdfTestTemplate_ReadOnly.pdf";
         internal static readonly string PdfTestTemplateSecuredFileName = "PdfTestTemplate_Secured.pdf";
+        internal static readonly string PdfTestTemplateRadioSelectedYesFileName = "PdfTestTemplate-Radio-Selected-Yes.pdf";
 
         [OneTimeSetUp]
         public void OneTimeSetUp()

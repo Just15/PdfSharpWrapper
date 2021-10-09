@@ -14,7 +14,8 @@ namespace PdfSharpWrapper.Tests
         private PdfDocumentWriter pdfDocumentWriter;
         private PdfDocumentReader pdfDocumentReader;
 
-        private readonly string TestFileName = $"Test-{PdfSharpWrapperSetupFixture.PdfTestTemplateFileName}";
+        private static readonly string testFileName = $"Test-{PdfSharpWrapperSetupFixture.PdfTestTemplateFileName}";
+        private static readonly string testFilePath = Path.Combine(AppContext.BaseDirectory, testFileName);
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -27,7 +28,7 @@ namespace PdfSharpWrapper.Tests
         [SetUp]
         public void SetUp()
         {
-            File.Copy(PdfSharpWrapperSetupFixture.PdfTestTemplateFileName, TestFileName, true);
+            File.Copy(PdfSharpWrapperSetupFixture.PdfTestTemplateFileName, testFileName, true);
         }
 
         [TestCase(PdfSharpWrapperSetupFixture.READ_ONLY_TEXT_FIELD)]
@@ -72,12 +73,12 @@ namespace PdfSharpWrapper.Tests
         {
             // ARRANGE
             // ACT
-            pdfDocumentWriter.Write(TestFileName, new Dictionary<string, string>
+            pdfDocumentWriter.Write(testFileName, new Dictionary<string, string>
             {
                 { field, value }
             });
 
-            var actual = pdfDocumentReader.Read(TestFileName)[field];
+            var actual = pdfDocumentReader.Read(testFileName)[field];
 
             // ASSERT
             Assert.That(actual, Is.EqualTo(expected));
@@ -95,23 +96,33 @@ namespace PdfSharpWrapper.Tests
         {
             // ARRANGE
             // ACT
-            pdfDocumentWriter.Write(TestFileName, new Dictionary<string, string>
+            pdfDocumentWriter.Write(testFileName, new Dictionary<string, string>
             {
                 { field, value }
             });
 
-            var actual = pdfDocumentReader.Read(TestFileName)[field];
+            var actual = pdfDocumentReader.Read(testFileName)[field];
 
             // ASSERT
             Assert.That(actual, Is.EqualTo(expected));
         }
 
-        [Test]
-        public void Write_PdfRadioButtonField_AsExpected()
+        [TestCase(PdfSharpWrapperSetupFixture.RADIO_BUTTON_FIELD, "Yes", "/Yes")]
+        [TestCase(PdfSharpWrapperSetupFixture.RADIO_BUTTON_FIELD, "No", "/No")]
+        [TestCase(PdfSharpWrapperSetupFixture.RADIO_BUTTON_FIELD, "NA", "/NA")]
+        public void Write_PdfRadioButtonField_AsExpected(string field, string value, string expected)
         {
             // ARRANGE
             // ACT
+            pdfDocumentWriter.Write(testFileName, new Dictionary<string, string>
+            {
+                { field, value }
+            });
+
+            var actual = pdfDocumentReader.Read(testFileName)[field];
+
             // ASSERT
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]

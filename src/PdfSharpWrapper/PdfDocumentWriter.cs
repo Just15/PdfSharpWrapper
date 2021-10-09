@@ -89,6 +89,11 @@ namespace PdfSharpWrapper
                             var checkBoxValue = Convert.ToBoolean(checkBoxPdfValue);
                             checkBox.Checked = checkBoxValue;
                             break;
+                        case PdfRadioButtonField radioButton:
+                            var fieldPdfValue = dictionary[field.Name];
+                            var fieldValue = !string.IsNullOrEmpty(fieldPdfValue) ? new PdfName($"/{fieldPdfValue}") : new PdfName("/null");
+                            radioButton.Value = fieldValue;
+                            break;
                         default:
                             var errorMessage = $"Unexpected field type of '{field.GetType()}' for '{keyValuePair.Key}'.";
                             logger.LogError(errorMessage);
