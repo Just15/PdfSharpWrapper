@@ -2,3 +2,32 @@
 
 # IDE0063: Use simple 'using' statement
 csharp_prefer_simple_using_statement = false
+
+##
+## StyleCop.Analyzers
+## https://gist.github.com/srmagura/234c41af2de14568c5cdef841c71a29b
+##
+
+# SA1101: Prefix local calls with this
+dotnet_diagnostic.SA1101.severity = none
+
+# SA1128: Put constructor initializers on their own line
+dotnet_diagnostic.SA1128.severity = none
+
+# Using directive should appear within a namespace declaration
+dotnet_diagnostic.SA1200.severity = None
+
+# SA1204: Static elements should appear before instance elements
+dotnet_diagnostic.SA1204.severity = none
+
+# SA1311: Static readonly fields should begin with upper-case letter
+dotnet_diagnostic.SA1311.severity = none
+
+# SA1413: Use trailing comma in multi-line initializers
+dotnet_diagnostic.SA1413.severity = none
+
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = none
+
+# The file header is missing or not located at the top of the file
+dotnet_diagnostic.SA1633.severity = None

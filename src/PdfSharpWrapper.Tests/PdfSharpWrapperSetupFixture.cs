@@ -1,5 +1,5 @@
-﻿using NUnit.Framework;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using NUnit.Framework;
 
 namespace PdfSharpWrapper.Tests
 {

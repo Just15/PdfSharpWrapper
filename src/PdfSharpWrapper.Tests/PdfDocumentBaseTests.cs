@@ -1,15 +1,15 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.IO;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using PdfSharpCore.Pdf;
-using System.IO;
 
 namespace PdfSharpWrapper.Tests
 {
     [TestFixture]
     public class PdfDocumentBaseTests
     {
-        Mock<ILogger<TestPdfDocumentBase>> mockLogger;
+        private Mock<ILogger<TestPdfDocumentBase>> mockLogger;
         private TestPdfDocumentBase testPdfDocumentBase;
 
         [OneTimeSetUp]

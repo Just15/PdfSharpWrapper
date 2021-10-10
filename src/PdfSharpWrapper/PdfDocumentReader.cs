@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 using PdfReaderWriter;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.AcroForms;
-using System.Collections.Generic;
 
 namespace PdfSharpWrapper
 {

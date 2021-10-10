@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
-using Moq;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.Extensions.Logging;
+using Moq;
+using NUnit.Framework;
 
 namespace PdfSharpWrapper.Tests
 {
@@ -152,24 +152,25 @@ namespace PdfSharpWrapper.Tests
             // ARRANGE
             // ACT
             // ASSERT
+            Assert.Fail("Not Implemented");
         }
 
         [Test]
         public void Write_PdfSignatureField_AsExpected()
         {
-            throw new NotImplementedException();
+            Assert.Fail("Not Implemented");
         }
 
         [Test]
         public void Write_PdfGenericField_AsExpected()
         {
-            throw new NotImplementedException();
+            Assert.Fail("Not Implemented");
         }
 
         [Test]
         public void Write_PdfPushButtonField_AsExpected()
         {
-            throw new NotImplementedException();
+            Assert.Fail("Not Implemented");
         }
     }
 }
