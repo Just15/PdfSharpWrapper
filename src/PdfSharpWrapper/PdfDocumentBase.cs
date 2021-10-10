@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using System.IO;
+using Microsoft.Extensions.Logging;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.IO;
-using System;
-using System.IO;
 
 namespace PdfSharpWrapper
 {
@@ -10,7 +10,7 @@ namespace PdfSharpWrapper
     {
         protected readonly ILogger logger;
 
-        public PdfDocumentBase(ILogger logger)
+        protected PdfDocumentBase(ILogger logger)
         {
             this.logger = logger;
         }
@@ -45,7 +45,6 @@ namespace PdfSharpWrapper
                 {
                     logger.LogError(ex, $"Exception trying to open '{filePath}'.");
                 }
-
             }
             else
             {

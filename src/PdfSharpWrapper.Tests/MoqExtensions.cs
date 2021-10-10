@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using Microsoft.Extensions.Logging;
 using Moq;
-using System;
 
 namespace PdfSharpWrapper.Tests
 {
@@ -8,7 +8,8 @@ namespace PdfSharpWrapper.Tests
     {
         public static Mock<ILogger<T>> VerifyLogging<T>(this Mock<ILogger<T>> logger, Func<Times> times)
         {
-            logger.Verify(x => x.Log(
+            logger.Verify(
+                x => x.Log(
                 It.IsAny<LogLevel>(),
                 It.IsAny<EventId>(),
                 It.IsAny<It.IsAnyType>(),
@@ -38,7 +39,8 @@ namespace PdfSharpWrapper.Tests
 
         private static Mock<ILogger<T>> VerifyLogging<T>(this Mock<ILogger<T>> logger, Func<object, Type, bool> state, LogLevel expectedLogLevel, Func<Times> times)
         {
-            logger.Verify(x => x.Log(
+            logger.Verify(
+                x => x.Log(
                 It.Is<LogLevel>(l => l == expectedLogLevel),
                 It.IsAny<EventId>(),
                 It.Is<It.IsAnyType>((v, t) => state(v, t)),
