@@ -89,6 +89,10 @@ namespace PdfSharpWrapper
                         var comboBoxBalue = comboBox.Value?.ToString()[1..^1];
                         dictionary.Add(fieldName, comboBoxBalue);
                         break;
+                    case PdfListBoxField listBox:
+                        var listBoxValue = listBox.Value?.ToString()[1..^1];
+                        dictionary.Add(fieldName, listBoxValue);
+                        break;
                     default:
                         var errorMessage = $"Unexpected field type of '{field.GetType()}' for '{fieldName}'.";
                         logger.LogError(errorMessage);

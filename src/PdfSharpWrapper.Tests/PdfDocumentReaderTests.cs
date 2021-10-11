@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -64,31 +65,34 @@ namespace PdfSharpWrapper.Tests
             Assert.That(actual, Is.EqualTo(expected));
         }
 
-        [Test]
-        public void Read_PdfListBoxField_AsExpected()
+        [TestCase(PdfSharpWrapperSetupFixture.LIST_BOX_FIELD, "a1")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNSELECTED_LIST_BOX_FIELD, null)]
+        public void Read_PdfListBoxField_AsExpected(string field, string expected)
         {
             // ARRANGE
+            var actual = pdfDocumentReader.Read(PdfSharpWrapperSetupFixture.PdfTestTemplateFileName)[field];
+
             // ACT
             // ASSERT
-            Assert.Fail("Not Implemented");
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
         public void Read_PdfSignatureField_AsExpected()
         {
-            Assert.Fail("Not Implemented");
+            throw new NotImplementedException();
         }
 
         [Test]
         public void Read_PdfGenericField_AsExpected()
         {
-            Assert.Fail("Not Implemented");
+            throw new NotImplementedException();
         }
 
         [Test]
         public void Read_PdfPushButtonField_AsExpected()
         {
-            Assert.Fail("Not Implemented");
+            throw new NotImplementedException();
         }
     }
 }

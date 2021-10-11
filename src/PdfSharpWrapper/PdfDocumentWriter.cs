@@ -97,6 +97,7 @@ namespace PdfSharpWrapper
                             radioButton.Value = fieldValue;
                             break;
                         case PdfComboBoxField:
+                        case PdfListBoxField:
                             var pdfValue = dictionary[field.Name];
 
                             // Get the index that should be selected
@@ -130,6 +131,7 @@ namespace PdfSharpWrapper
                                     iPdfArray.Elements[0] = new PdfInteger(optIndex);
                                 }
                             }
+
                             break;
                         default:
                             var errorMessage = $"Unexpected field type of '{field.GetType()}' for '{keyValuePair.Key}'.";

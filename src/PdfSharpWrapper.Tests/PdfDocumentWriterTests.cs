@@ -128,9 +128,11 @@ namespace PdfSharpWrapper.Tests
         [TestCase(PdfSharpWrapperSetupFixture.COMBO_BOX_FIELD, "a", "a")]
         [TestCase(PdfSharpWrapperSetupFixture.COMBO_BOX_FIELD, "b", "b")]
         [TestCase(PdfSharpWrapperSetupFixture.COMBO_BOX_FIELD, "c", "c")]
+        [TestCase(PdfSharpWrapperSetupFixture.COMBO_BOX_FIELD, "DoesntExist", "a")]
         [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_COMBO_BOX_FIELD, "a", "a")]
         [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_COMBO_BOX_FIELD, "b", "b")]
         [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_COMBO_BOX_FIELD, "c", "c")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_COMBO_BOX_FIELD, "DoesntExist", "a")]
         public void Write_PdfComboBoxField_AsExpected(string field, string value, string expected)
         {
             // ARRANGE
@@ -146,31 +148,45 @@ namespace PdfSharpWrapper.Tests
             Assert.That(actual, Is.EqualTo(expected));
         }
 
-        [Test]
-        public void Write_PdfListBoxField_AsExpected()
+        [TestCase(PdfSharpWrapperSetupFixture.LIST_BOX_FIELD, "a1", "a1")]
+        [TestCase(PdfSharpWrapperSetupFixture.LIST_BOX_FIELD, "a2", "a2")]
+        [TestCase(PdfSharpWrapperSetupFixture.LIST_BOX_FIELD, "a3", "a3")]
+        [TestCase(PdfSharpWrapperSetupFixture.LIST_BOX_FIELD, "DoesntExist", "a1")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNSELECTED_LIST_BOX_FIELD, "a1", "a1")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNSELECTED_LIST_BOX_FIELD, "a2", "a2")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNSELECTED_LIST_BOX_FIELD, "a3", "a3")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNSELECTED_LIST_BOX_FIELD, "DoesntExist", null)]
+        public void Write_PdfListBoxField_AsExpected(string field, string value, string expected)
         {
             // ARRANGE
+            pdfDocumentWriter.Write(testFileName, new Dictionary<string, string>
+            {
+                { field, value }
+            });
+
+            var actual = pdfDocumentReader.Read(testFileName)[field];
+
             // ACT
             // ASSERT
-            Assert.Fail("Not Implemented");
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
         public void Write_PdfSignatureField_AsExpected()
         {
-            Assert.Fail("Not Implemented");
+            throw new NotImplementedException();
         }
 
         [Test]
         public void Write_PdfGenericField_AsExpected()
         {
-            Assert.Fail("Not Implemented");
+            throw new NotImplementedException();
         }
 
         [Test]
         public void Write_PdfPushButtonField_AsExpected()
         {
-            Assert.Fail("Not Implemented");
+            throw new NotImplementedException();
         }
     }
 }
