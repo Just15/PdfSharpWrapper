@@ -27,8 +27,8 @@ namespace PdfSharpWrapper.Tests
             // ARRANGE
             // ACT
             // ASSERT
-            Assert.Throws<DirectoryNotFoundException>(() => testPdfDocumentBase.Open(fileName),
-                $"Could not find a part of the path '{fileName}'.");
+            Assert.Throws<DirectoryNotFoundException>(
+                () => testPdfDocumentBase.Open(fileName), $"Could not find a part of the path '{fileName}'.");
         }
 
         [Test]

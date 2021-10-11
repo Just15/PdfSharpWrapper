@@ -15,7 +15,6 @@ namespace PdfSharpWrapper.Tests
         private PdfDocumentReader pdfDocumentReader;
 
         private static readonly string testFileName = $"Test-{PdfSharpWrapperSetupFixture.PdfTestTemplateFileName}";
-        private static readonly string testFilePath = Path.Combine(AppContext.BaseDirectory, testFileName);
 
         [OneTimeSetUp]
         public void OneTimeSetUp()

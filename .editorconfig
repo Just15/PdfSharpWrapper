@@ -32,6 +32,9 @@ dotnet_diagnostic.SA1311.severity = none
 # SA1413: Use trailing comma in multi-line initializers
 dotnet_diagnostic.SA1413.severity = none
 
+# SA1502: Element should not be on a single line
+dotnet_diagnostic.SA1502.severity = none
+
 # SA1515: Single-line comment should be preceded by blank line
 dotnet_diagnostic.SA1515.severity = none
 
@@ -40,3 +43,6 @@ dotnet_diagnostic.SA1600.severity = none
 
 # The file header is missing or not located at the top of the file
 dotnet_diagnostic.SA1633.severity = None
+
+# S4144: Methods should not have identical implementations
+dotnet_diagnostic.S4144.severity = none
