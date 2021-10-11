@@ -81,17 +81,32 @@ namespace PdfSharpWrapper
                         dictionary.Add(fieldName, checkBoxValue);
                         break;
                     case PdfRadioButtonField radioButton:
-                        // Get list of available values
                         var radioButtonValue = radioButton.Value?.ToString();
                         dictionary.Add(fieldName, radioButtonValue);
                         break;
                     case PdfComboBoxField comboBox:
-                        var comboBoxBalue = comboBox.Value?.ToString()[1..^1];
-                        dictionary.Add(fieldName, comboBoxBalue);
+                        if (comboBox.Value != null)
+                        {
+                            var stringValue = comboBox.Value.ToString();
+                            var comboBoxValue = stringValue.Substring(1, stringValue.Length - 2);
+                            dictionary.Add(fieldName, comboBoxValue);
+                        }
+                        else
+                        {
+                            dictionary.Add(fieldName, null);
+                        }
                         break;
                     case PdfListBoxField listBox:
-                        var listBoxValue = listBox.Value?.ToString()[1..^1];
-                        dictionary.Add(fieldName, listBoxValue);
+                        if (listBox.Value != null)
+                        {
+                            var stringValue = listBox.Value.ToString();
+                            var listBoxValue = stringValue.Substring(1, stringValue.Length - 2);
+                            dictionary.Add(fieldName, listBoxValue);
+                        }
+                        else
+                        {
+                            dictionary.Add(fieldName, null);
+                        }
                         break;
                     default:
                         var errorMessage = $"Unexpected field type of '{field.GetType()}' for '{fieldName}'.";

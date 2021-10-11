@@ -96,8 +96,8 @@ namespace PdfSharpWrapper
                             var fieldValue = !string.IsNullOrEmpty(fieldPdfValue) ? new PdfName($"/{fieldPdfValue}") : new PdfName("/null");
                             radioButton.Value = fieldValue;
                             break;
-                        case PdfComboBoxField:
-                        case PdfListBoxField:
+                        case PdfComboBoxField comboBox:
+                        case PdfListBoxField listBox:
                             var pdfValue = dictionary[field.Name];
 
                             // Get the index that should be selected
