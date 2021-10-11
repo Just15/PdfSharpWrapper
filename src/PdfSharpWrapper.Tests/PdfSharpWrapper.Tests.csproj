@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="PdfTestTemplate-Radio-Selected-Yes.pdf" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="PdfTestTemplate-Radio-Selected-Yes.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
