@@ -1,32 +1,44 @@
 # PdfSharpWrapper
 
-## Example usage
+PdfSharpWrapper is a wrapper of PdfSharpCore that makes it easier to read and write values to PDF fields. Read and write to a PDF document using a dictionary where the key is the name of the PDF field and the value is the PDF field's value.
 
-Read a PDF document using TryRead() or Read().
+Example project: https://github.com/
+
+## Example Usage
+
+**Read** a PDF document using TryRead() or Read().
 ```cs
 PdfDocumentReader pdfDocumentReader = new PdfDocumentReader(loggerFactory.CreateLogger<PdfDocumentReader>());
 
-PdfDocument pdfDocumentTryRead = pdfDocumentReader.TryRead(@"C:\Path\To\PdfFile.pdf");
+Dictionary<string, string> dictionaryTryRead = pdfDocumentReader.TryRead(@"C:\Path\To\PdfFile.pdf");
 
-PdfDocument pdfDocumentRead = pdfDocumentReader.Read(@"C:\Path\To\PdfFile.pdf");
+Dictionary<string, string> dictionaryRead = pdfDocumentReader.Read(@"C:\Path\To\PdfFile.pdf");
 ```
 
-Write to a PDF document using TryWrite() or Write().
+**Write** to a PDF document using TryWrite() or Write().
 ```cs
 PdfDocumentWriter pdfDocumentWriter = new PdfDocumentWriter(loggerFactory.CreateLogger<PdfDocumentWriter>());
 
-var success = pdfDocumentWriter.TryWrite(@"C:\Path\To\PdfFile.pdf",  new Dictionary<string, string>
+bool successTryWrite = pdfDocumentWriter.TryWrite(@"C:\Path\To\PdfFile.pdf",  new Dictionary<string, string>
     {
         { "fieldName", "fieldValue" }
     });
 
-var success = pdfDocumentWriter.Write(@"C:\Path\To\PdfFile.pdf",  new Dictionary<string, string>
+bool successWrite = pdfDocumentWriter.Write(@"C:\Path\To\PdfFile.pdf",  new Dictionary<string, string>
     {
         { "fieldName", "fieldValue" }
     });
 ```
 
-## References:
+## Example Source
+
+![](./docs/PDFSource.png)
+
+## Example Output
+
+![](./docs/ConsoleOutput.png)
+
+## References
 * https://github.com/empira/PDFsharp
 * https://github.com/roceh/PdfSharp.Xamarin
 * https://github.com/ststeiger/PdfSharpCore
