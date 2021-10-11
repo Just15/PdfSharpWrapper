@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,13 +34,7 @@ namespace PdfSharpWrapper.Examples.ConsoleApp
             {
                 // Read values and output to console
                 var dictionary = pdfDocumentReader.Read(filePath);
-                Console.WriteLine("Original Values --------------------");
-                foreach (var keyValuePair in dictionary)
-                {
-                    Console.WriteLine($"{keyValuePair.Key}, {keyValuePair.Value ?? "null"}");
-                }
-
-                Console.WriteLine(Environment.NewLine);
+                WriteValues("Original Values", dictionary);
 
                 // Update values
                 dictionary["textField"] = "PdfSharpWrapper";
@@ -54,16 +49,23 @@ namespace PdfSharpWrapper.Examples.ConsoleApp
 
                 // Write values and output to console
                 pdfDocumentWriter.Write(modifiedFilePath, dictionary);
-                Console.WriteLine("Updated Values --------------------");
-                foreach (var keyValuePair in dictionary)
-                {
-                    Console.WriteLine($"{keyValuePair.Key}, {keyValuePair.Value ?? "null"}");
-                }
+                WriteValues("Updated Values", dictionary);
             }
             finally
             {
                 File.Delete(modifiedFilePath);
             }
+        }
+
+        private static void WriteValues(string header, Dictionary<string, string> dictionary)
+        {
+            Console.WriteLine($"{header} --------------------");
+            foreach (var keyValuePair in dictionary)
+            {
+                Console.WriteLine($"{keyValuePair.Key}, {keyValuePair.Value ?? "null"}");
+            }
+
+            Console.WriteLine(Environment.NewLine);
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args)
