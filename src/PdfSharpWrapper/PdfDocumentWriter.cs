@@ -63,19 +63,19 @@ namespace PdfSharpWrapper
             errorMessages = new List<string>();
             var fields = pdfDocument.AcroForm.Fields;
 
-            foreach (var keyValuePair in dictionary)
+            foreach (var key in dictionary.Keys)
             {
-                var field = fields[keyValuePair.Key];
+                var field = fields[key];
                 if (field == null)
                 {
-                    var errorMessage = $"Field is null for key: {keyValuePair.Key}.";
-                    logger.LogInformation(errorMessage);
+                    var errorMessage = $"Field is null for key: {key}.";
+                    Logger.LogInformation(errorMessage);
                     errorMessages.Add(errorMessage);
                 }
                 else if (field.ReadOnly)
                 {
                     var errorMessage = $"'{field.Name}' is readonly.";
-                    logger.LogInformation(errorMessage);
+                    Logger.LogInformation(errorMessage);
                     errorMessages.Add(errorMessage);
                 }
                 else
@@ -134,8 +134,8 @@ namespace PdfSharpWrapper
 
                             break;
                         default:
-                            var errorMessage = $"Unexpected field type of '{field.GetType()}' for '{keyValuePair.Key}'.";
-                            logger.LogError(errorMessage);
+                            var errorMessage = $"Unexpected field type of '{field.GetType()}' for '{key}'.";
+                            Logger.LogError(errorMessage);
                             errorMessages.Add(errorMessage);
                             break;
                     }

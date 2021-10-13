@@ -110,7 +110,7 @@ namespace PdfSharpWrapper
                         break;
                     default:
                         var errorMessage = $"Unexpected field type of '{field.GetType()}' for '{fieldName}'.";
-                        logger.LogError(errorMessage);
+                        Logger.LogError(errorMessage);
                         errorMessages.Add(errorMessage);
                         break;
                 }
