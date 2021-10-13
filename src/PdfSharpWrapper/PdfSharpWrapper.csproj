@@ -8,7 +8,6 @@
 		<RepositoryUrl>https://github.com/Just15/PdfSharpWrapper</RepositoryUrl>
 		<PackageTags>PdfSharp PdfSharpCore .NETCore</PackageTags>
 		<RepositoryType>git</RepositoryType>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<Copyright>Copyright (c) 2005-2007 empira Software GmbH, Cologne (Germany)</Copyright>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
