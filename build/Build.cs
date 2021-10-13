@@ -20,7 +20,21 @@ class Build : NukeBuild
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
-    public static int Main () => Execute<Build>(x => x.Compile);
+
+
+    // -----------------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------------
+    // Articles --------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------------
+    // https://blog.dangl.me/archive/escalating-automation-the-nuclear-option/
+    //
+    // https://www.ariank.dev/create-a-github-release-with-nuke-build-automation-tool/
+    //
+    //
+    // -----------------------------------------------------------------------------------------------------------------------
+
+
+    public static int Main() => Execute<Build>(x => x.Compile);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
@@ -40,6 +54,7 @@ class Build : NukeBuild
         });
 
     Target Restore => _ => _
+        .DependsOn(Clean)
         .Executes(() =>
         {
             DotNetRestore(s => s
@@ -54,6 +69,18 @@ class Build : NukeBuild
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
                 .EnableNoRestore());
+        });
+
+    Target Test => _ => _
+        .DependsOn(Compile)
+        .TriggeredBy(Compile)
+        .Executes(() =>
+        {
+            DotNetTest(s => s
+                .SetProjectFile(Solution)
+                .SetConfiguration(Configuration)
+                .EnableNoRestore()
+                .EnableNoBuild());
         });
 
 }
