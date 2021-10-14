@@ -26,6 +26,9 @@ class Build : NukeBuild
     // -----------------------------------------------------------------------------------------------------------------------
     // Articles --------------------------------------------------------------------------------------------------------------
     // -----------------------------------------------------------------------------------------------------------------------
+    //
+    // https://blog.codingmilitia.com/2020/10/24/2020-10-24-setting-up-a-build-with-nuke/
+    //
     // https://blog.dangl.me/archive/escalating-automation-the-nuclear-option/
     //
     // https://www.ariank.dev/create-a-github-release-with-nuke-build-automation-tool/
@@ -83,4 +86,16 @@ class Build : NukeBuild
                 .EnableNoBuild());
         });
 
+    Target Pack => _ => _
+    .DependsOn(Test)
+    .Executes(() =>
+    {
+        DotNetPack(s => s
+            .SetProject(Solution)
+            .SetOutputDirectory(ArtifactsDirectory)
+            .SetIncludeSymbols(true)
+            .SetConfiguration(Configuration)
+            .EnableNoRestore()
+            .EnableNoBuild());
+    });
 }
