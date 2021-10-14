@@ -6,13 +6,13 @@ using PdfSharpCore.Pdf.IO;
 
 namespace PdfSharpWrapper
 {
-    public abstract class PdfDocumentBase
+    public abstract class PdfDocumentBase<T>
     {
-        protected readonly ILogger logger;
+        protected ILogger<T> Logger { get; set; }
 
-        protected PdfDocumentBase(ILogger logger)
+        protected PdfDocumentBase(ILogger<T> logger)
         {
-            this.logger = logger;
+            Logger = logger;
         }
 
         public PdfDocument Open(string filePath)
@@ -24,7 +24,7 @@ namespace PdfSharpWrapper
                 if (pdfDocument.AcroForm == null)
                 {
                     pdfDocument = null;
-                    logger.LogError($"'{nameof(PdfDocument.AcroForm)}' is null in '{filePath}'.");
+                    Logger.LogError($"'{nameof(PdfDocument.AcroForm)}' is null in '{filePath}'.");
                 }
             }
 
@@ -43,12 +43,12 @@ namespace PdfSharpWrapper
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, $"Exception trying to open '{filePath}'.");
+                    Logger.LogError(ex, $"Exception trying to open '{filePath}'.");
                 }
             }
             else
             {
-                logger.LogError($"The file '{filePath}' does not exist.");
+                Logger.LogError($"The file '{filePath}' does not exist.");
             }
 
             return pdfDocument;

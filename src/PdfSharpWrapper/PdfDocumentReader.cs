@@ -6,7 +6,7 @@ using PdfSharpCore.Pdf.AcroForms;
 
 namespace PdfSharpWrapper
 {
-    public class PdfDocumentReader : PdfDocumentBase
+    public class PdfDocumentReader : PdfDocumentBase<PdfDocumentReader>
     {
         public PdfDocumentReader(ILogger<PdfDocumentReader> logger) : base(logger)
         {
@@ -110,7 +110,7 @@ namespace PdfSharpWrapper
                         break;
                     default:
                         var errorMessage = $"Unexpected field type of '{field.GetType()}' for '{fieldName}'.";
-                        logger.LogError(errorMessage);
+                        Logger.LogError(errorMessage);
                         errorMessages.Add(errorMessage);
                         break;
                 }

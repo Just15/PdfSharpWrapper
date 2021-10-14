@@ -9,7 +9,7 @@ using PdfSharpCore.Pdf.Advanced;
 
 namespace PdfSharpWrapper
 {
-    public class PdfDocumentWriter : PdfDocumentBase
+    public class PdfDocumentWriter : PdfDocumentBase<PdfDocumentWriter>
     {
         public PdfDocumentWriter(ILogger<PdfDocumentWriter> logger) : base(logger)
         {
@@ -69,13 +69,13 @@ namespace PdfSharpWrapper
                 if (field == null)
                 {
                     var errorMessage = $"Field is null for key: {keyValuePair.Key}.";
-                    logger.LogInformation(errorMessage);
+                    Logger.LogInformation(errorMessage);
                     errorMessages.Add(errorMessage);
                 }
                 else if (field.ReadOnly)
                 {
                     var errorMessage = $"'{field.Name}' is readonly.";
-                    logger.LogInformation(errorMessage);
+                    Logger.LogInformation(errorMessage);
                     errorMessages.Add(errorMessage);
                 }
                 else
@@ -135,7 +135,7 @@ namespace PdfSharpWrapper
                             break;
                         default:
                             var errorMessage = $"Unexpected field type of '{field.GetType()}' for '{keyValuePair.Key}'.";
-                            logger.LogError(errorMessage);
+                            Logger.LogError(errorMessage);
                             errorMessages.Add(errorMessage);
                             break;
                     }
