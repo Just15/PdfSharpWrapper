@@ -9,7 +9,7 @@ using PdfSharpCore.Pdf.Advanced;
 
 namespace PdfSharpWrapper
 {
-    public class PdfDocumentWriter : PdfDocumentBase
+    public class PdfDocumentWriter : PdfDocumentBase<PdfDocumentWriter>
     {
         public PdfDocumentWriter(ILogger<PdfDocumentWriter> logger) : base(logger)
         {

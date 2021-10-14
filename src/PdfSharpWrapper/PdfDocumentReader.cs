@@ -6,7 +6,7 @@ using PdfSharpCore.Pdf.AcroForms;
 
 namespace PdfSharpWrapper
 {
-    public class PdfDocumentReader : PdfDocumentBase
+    public class PdfDocumentReader : PdfDocumentBase<PdfDocumentReader>
     {
         public PdfDocumentReader(ILogger<PdfDocumentReader> logger) : base(logger)
         {
