@@ -88,10 +88,12 @@ class Build : NukeBuild
 
     Target Pack => _ => _
     .DependsOn(Test)
+    .TriggeredBy(Test)
     .Executes(() =>
     {
         DotNetPack(s => s
-            .SetProject(Solution)
+            //.SetProject(Solution) // Pack everything in the solution
+            .SetProject(Solution.GetProject("PdfSharpWrapper")) // Pack just this project
             .SetOutputDirectory(ArtifactsDirectory)
             .SetIncludeSymbols(true)
             .SetConfiguration(Configuration)
