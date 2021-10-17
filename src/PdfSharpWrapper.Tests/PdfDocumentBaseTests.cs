@@ -85,7 +85,7 @@ namespace PdfSharpWrapper.Tests
             mockLogger.VerifyLogging($"Exception trying to open '{PdfSharpWrapperSetupFixture.PdfTestTemplateSecuredFileName}'.", LogLevel.Error, Times.Once);
         }
 
-        public class TestPdfDocumentBase : PdfDocumentBase<TestPdfDocumentBase>
+        public class TestPdfDocumentBase : PdfDocumentBase
         {
             public TestPdfDocumentBase(ILogger<TestPdfDocumentBase> logger) : base(logger) { }
         }

@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using PdfSharpCore.Pdf;
 
-namespace PdfReaderWriter
+namespace PdfSharpWrapper
 {
     public static class PdfHelpers
     {
