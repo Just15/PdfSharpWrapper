@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using PdfReaderWriter;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.AcroForms;
 using PdfSharpCore.Pdf.Advanced;
 
 namespace PdfSharpWrapper
 {
-    public class PdfDocumentWriter : PdfDocumentBase<PdfDocumentWriter>
+    public class PdfDocumentWriter : PdfDocumentBase
     {
         public PdfDocumentWriter(ILogger<PdfDocumentWriter> logger) : base(logger)
         {

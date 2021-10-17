@@ -6,11 +6,11 @@ using PdfSharpCore.Pdf.IO;
 
 namespace PdfSharpWrapper
 {
-    public abstract class PdfDocumentBase<T>
+    public abstract class PdfDocumentBase
     {
-        protected ILogger<T> Logger { get; set; }
+        protected ILogger Logger { get; set; }
 
-        protected PdfDocumentBase(ILogger<T> logger)
+        protected PdfDocumentBase(ILogger logger)
         {
             Logger = logger;
         }
