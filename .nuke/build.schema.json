@@ -18,6 +18,9 @@
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
         },
+        "GitHubAuthenticationToken": {
+          "type": "string"
+        },
         "Help": {
           "type": "boolean",
           "description": "Shows the help text for this build assembly"
@@ -45,6 +48,12 @@
         "NoLogo": {
           "type": "boolean",
           "description": "Disables displaying the NUKE logo"
+        },
+        "NugetApiKey": {
+          "type": "string"
+        },
+        "NugetApiUrl": {
+          "type": "string"
         },
         "Partition": {
           "type": "string",

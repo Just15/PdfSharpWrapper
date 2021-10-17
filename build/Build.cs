@@ -12,6 +12,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
+[DotNetVerbosityMapping]
 class Build : NukeBuild
 {
     /// Support plugins are available for:
@@ -42,8 +43,12 @@ class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Solution] readonly Solution Solution;
+    [Solution(GenerateProjects = true)] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
+
+    [Parameter] string GitHubAuthenticationToken = "TODO: GitHubAuthenticationToken";
+    [Parameter] string NugetApiUrl = "https://api.nuget.org/v3/index.json";
+    [Parameter] string NugetApiKey = "TODO: NugetApiKey";
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
@@ -72,6 +77,9 @@ class Build : NukeBuild
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
                 .EnableNoRestore());
+            //.SetAssemblyVersion(GitVersion.AssemblySemVer)
+            //.SetFileVersion(GitVersion.AssemblySemFileVer)
+            //.SetInformationalVersion(GitVersion.InformationalVersion))
         });
 
     Target Test => _ => _
@@ -87,17 +95,18 @@ class Build : NukeBuild
         });
 
     Target Pack => _ => _
-    .DependsOn(Test)
-    .TriggeredBy(Test)
-    .Executes(() =>
-    {
-        DotNetPack(s => s
-            //.SetProject(Solution) // Pack everything in the solution
-            .SetProject(Solution.GetProject("PdfSharpWrapper")) // Pack just this project
-            .SetOutputDirectory(ArtifactsDirectory)
-            .SetIncludeSymbols(true)
-            .SetConfiguration(Configuration)
-            .EnableNoRestore()
-            .EnableNoBuild());
-    });
+        .DependsOn(Test)
+        .TriggeredBy(Test)
+        .Executes(() =>
+        {
+            DotNetPack(s => s
+                .SetProject(Solution.GetProject(Solution.PdfSharpWrapper))
+                .SetOutputDirectory(ArtifactsDirectory)
+                .SetConfiguration(Configuration)
+                .SetIncludeSymbols(true)
+                .EnableContinuousIntegrationBuild());
+        });
+
+    // Push
+    // https://cfrenzel.com/publishing-nuget-nuke-appveyor/
 }
