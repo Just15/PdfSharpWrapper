@@ -30,13 +30,14 @@ class Build : NukeBuild
     //
     // https://blog.codingmilitia.com/2020/10/24/2020-10-24-setting-up-a-build-with-nuke/
     //
+    // https://cfrenzel.com/publishing-nuget-nuke-appveyor/
+    //
     // https://blog.dangl.me/archive/escalating-automation-the-nuclear-option/
     //
     // https://www.ariank.dev/create-a-github-release-with-nuke-build-automation-tool/
     //
     //
     // -----------------------------------------------------------------------------------------------------------------------
-
 
     public static int Main() => Execute<Build>(x => x.Compile);
 
