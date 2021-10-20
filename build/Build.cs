@@ -5,7 +5,9 @@ using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
+using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Utilities.Collections;
+using System.Linq;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
@@ -15,18 +17,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 [DotNetVerbosityMapping]
 class Build : NukeBuild
 {
-    /// Support plugins are available for:
-    ///   - JetBrains ReSharper        https://nuke.build/resharper
-    ///   - JetBrains Rider            https://nuke.build/rider
-    ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
-    ///   - Microsoft VSCode           https://nuke.build/vscode
-
-
-
-    // -----------------------------------------------------------------------------------------------------------------------
-    // -----------------------------------------------------------------------------------------------------------------------
-    // Articles --------------------------------------------------------------------------------------------------------------
-    // -----------------------------------------------------------------------------------------------------------------------
+    // Nuke Build ---------------------------------------------------------------------------------------------------------------
     //
     // https://blog.codingmilitia.com/2020/10/24/2020-10-24-setting-up-a-build-with-nuke/
     //
@@ -35,9 +26,10 @@ class Build : NukeBuild
     // https://blog.dangl.me/archive/escalating-automation-the-nuclear-option/
     //
     // https://www.ariank.dev/create-a-github-release-with-nuke-build-automation-tool/
+
+    // GitVersion ---------------------------------------------------------------------------------------------------------------
     //
-    //
-    // -----------------------------------------------------------------------------------------------------------------------
+    // https://gitversion.net/docs/learn/branching-strategies/gitflow/examples
 
     public static int Main() => Execute<Build>(x => x.Compile);
 
@@ -45,11 +37,12 @@ class Build : NukeBuild
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
     [Solution(GenerateProjects = true)] readonly Solution Solution;
+    [GitVersion] readonly GitVersion GitVersion;
     [GitRepository] readonly GitRepository GitRepository;
 
     [Parameter] string GitHubAuthenticationToken = "TODO: GitHubAuthenticationToken";
-    [Parameter] string NugetApiUrl = "https://api.nuget.org/v3/index.json";
-    [Parameter] string NugetApiKey = "TODO: NugetApiKey";
+    [Parameter] readonly string NugetApiUrl = "https://api.nuget.org/v3/index.json"; // Default
+    [Parameter] readonly string NugetApiKey;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
@@ -77,10 +70,10 @@ class Build : NukeBuild
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
-                .EnableNoRestore());
-            //.SetAssemblyVersion(GitVersion.AssemblySemVer)
-            //.SetFileVersion(GitVersion.AssemblySemFileVer)
-            //.SetInformationalVersion(GitVersion.InformationalVersion))
+                .EnableNoRestore()
+                .SetAssemblyVersion(GitVersion.AssemblySemVer)
+                .SetFileVersion(GitVersion.AssemblySemFileVer)
+                .SetInformationalVersion(GitVersion.InformationalVersion));
         });
 
     Target Test => _ => _
@@ -97,7 +90,6 @@ class Build : NukeBuild
 
     Target Pack => _ => _
         .DependsOn(Test)
-        .TriggeredBy(Test)
         .Executes(() =>
         {
             DotNetPack(s => s
@@ -105,9 +97,27 @@ class Build : NukeBuild
                 .SetOutputDirectory(ArtifactsDirectory)
                 .SetConfiguration(Configuration)
                 .SetIncludeSymbols(true)
-                .EnableContinuousIntegrationBuild());
+                .EnableContinuousIntegrationBuild()
+                .SetVersion(GitVersion.NuGetVersionV2));
         });
 
-    // Push
-    // https://cfrenzel.com/publishing-nuget-nuke-appveyor/
+    Target Push => _ => _
+        .DependsOn(Pack)
+        .Requires(() => NugetApiUrl)
+        .Requires(() => NugetApiKey)
+        .Requires(() => Configuration.Equals(Configuration.Release))
+        .Executes(() =>
+        {
+            GlobFiles(ArtifactsDirectory, "*.nupkg")
+                .NotEmpty()
+                .Where(x => !x.EndsWith("symbols.nupkg"))
+                .ForEach(x =>
+                {
+                    DotNetNuGetPush(s => s
+                        .SetTargetPath(x)
+                        .SetSource(NugetApiUrl)
+                        .SetApiKey(NugetApiKey)
+                    );
+                });
+        });
 }

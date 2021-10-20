@@ -83,6 +83,7 @@
               "Clean",
               "Compile",
               "Pack",
+              "Push",
               "Restore",
               "Test"
             ]
@@ -101,6 +102,7 @@
               "Clean",
               "Compile",
               "Pack",
+              "Push",
               "Restore",
               "Test"
             ]
