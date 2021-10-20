@@ -120,4 +120,7 @@ class Build : NukeBuild
                     );
                 });
         });
+
+    // TODO: Create github release
+    // Add nuget package as assets (.nupkg, .symbols.nupkg)
 }
