@@ -86,7 +86,8 @@
               "Pack",
               "Restore",
               "Test",
-              "UploadNuGetPackage"
+              "UploadNuGetPackage",
+              "UploadReleaseAssetsToGithub"
             ]
           }
         },
@@ -106,7 +107,8 @@
               "Pack",
               "Restore",
               "Test",
-              "UploadNuGetPackage"
+              "UploadNuGetPackage",
+              "UploadReleaseAssetsToGithub"
             ]
           }
         },

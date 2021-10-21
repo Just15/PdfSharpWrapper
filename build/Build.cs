@@ -21,13 +21,14 @@ class Build : NukeBuild
 {
     // Nuke Build ---------------------------------------------------------------------------------------------------------------
     //
+    // https://blog.dangl.me/archive/escalating-automation-the-nuclear-option/
+    //
+    // https://www.ariank.dev/create-a-github-release-with-nuke-build-automation-tool/
+    //
     // https://blog.codingmilitia.com/2020/10/24/2020-10-24-setting-up-a-build-with-nuke/
     //
     // https://cfrenzel.com/publishing-nuget-nuke-appveyor/
     //
-    // https://blog.dangl.me/archive/escalating-automation-the-nuclear-option/
-    //
-    // https://www.ariank.dev/create-a-github-release-with-nuke-build-automation-tool/
 
     // GitVersion ---------------------------------------------------------------------------------------------------------------
     //
@@ -130,6 +131,12 @@ class Build : NukeBuild
             var createdRelease = await GitHubTasks.GitHubClient.Repository.Release.Create(GitRepository.GetGitHubOwner(), GitRepository.GetGitHubName(), newRelease);
         });
 
+    Target UploadReleaseAssetsToGithub => _ => _
+        .Executes(() =>
+        {
+
+        });
+
     Target UploadNuGetPackage => _ => _
         .DependsOn(Pack)
         .Requires(() => NugetApiUrl)
@@ -141,7 +148,7 @@ class Build : NukeBuild
         {
             GlobFiles(ArtifactsDirectory, "*.nupkg")
                 .NotEmpty()
-                .Where(x => !x.EndsWith("symbols.nupkg"))
+                .Where(x => !x.EndsWith("symbols.nupkg")) // TODO: Do we want this?
                 .ForEach(x =>
                 {
                     DotNetNuGetPush(s => s
