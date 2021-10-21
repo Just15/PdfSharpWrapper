@@ -21,6 +21,8 @@ class Build : NukeBuild
 {
     // Nuke Build ---------------------------------------------------------------------------------------------------------------
     //
+    // https://github.com/nuke-build/nuke/blob/2e3ebee5b041bb80d18d41a9da36b7e7d8fd28fc/source/Nuke.GlobalTool/templates/Build.cs
+    //
     // https://blog.dangl.me/archive/escalating-automation-the-nuclear-option/
     //
     // https://www.ariank.dev/create-a-github-release-with-nuke-build-automation-tool/
@@ -99,7 +101,8 @@ class Build : NukeBuild
                 .SetProject(Solution.GetProject(Solution.PdfSharpWrapper))
                 .SetOutputDirectory(ArtifactsDirectory)
                 .SetConfiguration(Configuration)
-                .SetIncludeSymbols(true)
+                .EnableIncludeSymbols()
+                .SetSymbolPackageFormat(DotNetSymbolPackageFormat.snupkg)
                 .EnableContinuousIntegrationBuild()
                 .SetVersion(GitVersion.NuGetVersionV2));
         });
