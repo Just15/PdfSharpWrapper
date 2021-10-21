@@ -84,7 +84,6 @@
               "Compile",
               "CreateGitHubRelease",
               "Pack",
-              "Release",
               "Restore",
               "Test",
               "UploadNuGetPackage"
@@ -105,7 +104,6 @@
               "Compile",
               "CreateGitHubRelease",
               "Pack",
-              "Release",
               "Restore",
               "Test",
               "UploadNuGetPackage"

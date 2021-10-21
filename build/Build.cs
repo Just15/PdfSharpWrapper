@@ -43,7 +43,7 @@ class Build : NukeBuild
     [GitRepository] readonly GitRepository GitRepository;
 
     [Parameter] string GitHubAuthenticationToken;
-    [Parameter] readonly string NugetApiUrl = "https://api.nuget.org/v3/index.json"; // Default
+    [Parameter] readonly string NugetApiUrl = "https://api.nuget.org/v3/index.json";
     [Parameter] readonly string NugetApiKey;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
@@ -104,6 +104,9 @@ class Build : NukeBuild
         });
 
     Target CreateGitHubRelease => _ => _
+        .DependsOn(Pack)
+        .Requires(() => GitHubAuthenticationToken)
+        .Requires(() => Configuration.Equals(Configuration.Release))
         .Executes(async () =>
         {
             // TODO: Add nuget package as assets (.nupkg, .symbols.nupkg)
@@ -133,6 +136,7 @@ class Build : NukeBuild
         .Requires(() => NugetApiKey)
         .Requires(() => Configuration.Equals(Configuration.Release))
         .TriggeredBy(CreateGitHubRelease)
+        .Unlisted()
         .Executes(() =>
         {
             GlobFiles(ArtifactsDirectory, "*.nupkg")
@@ -147,7 +151,4 @@ class Build : NukeBuild
                     );
                 });
         });
-
-    Target Release => _ => _
-        .DependsOn(CreateGitHubRelease, UploadNuGetPackage);
 }
