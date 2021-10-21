@@ -147,4 +147,7 @@ class Build : NukeBuild
                     );
                 });
         });
+
+    Target Release => _ => _
+        .DependsOn(CreateGitHubRelease, UploadNuGetPackage);
 }
