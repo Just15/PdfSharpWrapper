@@ -5,8 +5,10 @@ using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
+using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Utilities.Collections;
+using Octokit;
 using System.Linq;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
@@ -40,7 +42,7 @@ class Build : NukeBuild
     [GitVersion] readonly GitVersion GitVersion;
     [GitRepository] readonly GitRepository GitRepository;
 
-    [Parameter] string GitHubAuthenticationToken = "TODO: GitHubAuthenticationToken";
+    [Parameter] string GitHubAuthenticationToken;
     [Parameter] readonly string NugetApiUrl = "https://api.nuget.org/v3/index.json"; // Default
     [Parameter] readonly string NugetApiKey;
 
@@ -101,11 +103,36 @@ class Build : NukeBuild
                 .SetVersion(GitVersion.NuGetVersionV2));
         });
 
-    Target Push => _ => _
+    Target CreateGitHubRelease => _ => _
+        .Executes(async () =>
+        {
+            // TODO: Add nuget package as assets (.nupkg, .symbols.nupkg)
+            // TODO: Create and upload release notes
+            // TODO: Review DependsOn(), TriggeredBy(), Unlisted()
+
+            GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)))
+            {
+                Credentials = new Credentials(GitHubAuthenticationToken)
+            };
+
+            var newRelease = new NewRelease(GitVersion.MajorMinorPatch)
+            {
+                TargetCommitish = GitVersion.Sha,
+                Name = GitVersion.MajorMinorPatch,
+                //Body = @$"See release notes in [docs](https://github.com/Just15/GitVersion-PdfSharpWrapper/blob/master/README.md)",
+                Body = @$"See release notes in ...",
+                Draft = true,
+            };
+
+            var createdRelease = await GitHubTasks.GitHubClient.Repository.Release.Create(GitRepository.GetGitHubOwner(), GitRepository.GetGitHubName(), newRelease);
+        });
+
+    Target UploadNuGetPackage => _ => _
         .DependsOn(Pack)
         .Requires(() => NugetApiUrl)
         .Requires(() => NugetApiKey)
         .Requires(() => Configuration.Equals(Configuration.Release))
+        .TriggeredBy(CreateGitHubRelease)
         .Executes(() =>
         {
             GlobFiles(ArtifactsDirectory, "*.nupkg")
@@ -120,7 +147,4 @@ class Build : NukeBuild
                     );
                 });
         });
-
-    // TODO: Create github release
-    // Add nuget package as assets (.nupkg, .symbols.nupkg)
 }
