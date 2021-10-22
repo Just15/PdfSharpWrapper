@@ -118,6 +118,7 @@ class Build : NukeBuild
             // TODO: Add nuget package as assets (.nupkg, .symbols.nupkg)
             // TODO: Create and upload release notes
             // TODO: Review DependsOn(), TriggeredBy(), Unlisted()
+            // Delete draft release
 
             GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)))
             {
@@ -141,6 +142,8 @@ class Build : NukeBuild
         .Unlisted()
         .Executes(() =>
         {
+            ControlFlow.NotNull(createdRelease, $"'createdRelease' is null.");
+
             GlobFiles(ArtifactsDirectory, "*.nupkg", "*.snupkg")
                 .NotEmpty()
                 .ForEach(x =>
