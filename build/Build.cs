@@ -141,7 +141,7 @@ class Build : NukeBuild
         .Unlisted()
         .Executes(() =>
         {
-            GlobFiles(ArtifactsDirectory, "*.nupkg")
+            GlobFiles(ArtifactsDirectory, "*.nupkg", "*.snupkg")
                 .NotEmpty()
                 .ForEach(x =>
                 {
@@ -170,7 +170,7 @@ class Build : NukeBuild
         .Unlisted()
         .Executes(() =>
         {
-            GlobFiles(ArtifactsDirectory, "*.nupkg")
+            GlobFiles(ArtifactsDirectory, "*.nupkg", "*.snupkg")
                 .NotEmpty()
                 .ForEach(x =>
                 {
