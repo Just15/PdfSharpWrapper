@@ -9,10 +9,11 @@ using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Utilities.Collections;
 using Octokit;
-using System.Linq;
+using System.IO;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using Microsoft.AspNetCore.StaticFiles;
 
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
@@ -45,9 +46,10 @@ class Build : NukeBuild
     [GitVersion] readonly GitVersion GitVersion;
     [GitRepository] readonly GitRepository GitRepository;
 
-    [Parameter] string GitHubAuthenticationToken;
+    [Parameter] readonly string GitHubAuthenticationToken;
     [Parameter] readonly string NugetApiUrl = "https://api.nuget.org/v3/index.json";
     [Parameter] readonly string NugetApiKey;
+    Release createdRelease;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
@@ -75,10 +77,10 @@ class Build : NukeBuild
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
-                .EnableNoRestore()
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
-                .SetInformationalVersion(GitVersion.InformationalVersion));
+                .SetInformationalVersion(GitVersion.InformationalVersion)
+                .EnableNoRestore());
         });
 
     Target Test => _ => _
@@ -99,12 +101,12 @@ class Build : NukeBuild
         {
             DotNetPack(s => s
                 .SetProject(Solution.GetProject(Solution.PdfSharpWrapper))
+                .SetVersion(GitVersion.NuGetVersionV2)
                 .SetOutputDirectory(ArtifactsDirectory)
                 .SetConfiguration(Configuration)
                 .EnableIncludeSymbols()
                 .SetSymbolPackageFormat(DotNetSymbolPackageFormat.snupkg)
-                .EnableContinuousIntegrationBuild()
-                .SetVersion(GitVersion.NuGetVersionV2));
+                .EnableContinuousIntegrationBuild());
         });
 
     Target CreateGitHubRelease => _ => _
@@ -131,13 +133,32 @@ class Build : NukeBuild
                 Draft = true,
             };
 
-            var createdRelease = await GitHubTasks.GitHubClient.Repository.Release.Create(GitRepository.GetGitHubOwner(), GitRepository.GetGitHubName(), newRelease);
+            createdRelease = await GitHubTasks.GitHubClient.Repository.Release.Create(GitRepository.GetGitHubOwner(), GitRepository.GetGitHubName(), newRelease);
         });
 
     Target UploadReleaseAssetsToGithub => _ => _
+        .TriggeredBy(CreateGitHubRelease)
+        .Unlisted()
         .Executes(() =>
         {
+            GlobFiles(ArtifactsDirectory, "*.nupkg")
+                .NotEmpty()
+                .ForEach(x =>
+                {
+                    if (!new FileExtensionContentTypeProvider().TryGetContentType(x, out var assetContentType))
+                    {
+                        assetContentType = "application/x-binary";
+                    }
 
+                    var releaseAssetUpload = new ReleaseAssetUpload
+                    {
+                        ContentType = assetContentType,
+                        FileName = Path.GetFileName(x),
+                        RawData = File.OpenRead(x)
+                    };
+
+                    var releaseAsset = GitHubTasks.GitHubClient.Repository.Release.UploadAsset(createdRelease, releaseAssetUpload).Result;
+                });
         });
 
     Target UploadNuGetPackage => _ => _
@@ -151,7 +172,6 @@ class Build : NukeBuild
         {
             GlobFiles(ArtifactsDirectory, "*.nupkg")
                 .NotEmpty()
-                .Where(x => !x.EndsWith("symbols.nupkg")) // TODO: Do we want this?
                 .ForEach(x =>
                 {
                     DotNetNuGetPush(s => s
