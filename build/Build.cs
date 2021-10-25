@@ -102,7 +102,7 @@ class Build : NukeBuild
         {
             DotNetPack(s => s
                 .SetProject(Solution.GetProject(Solution.PdfSharpWrapper))
-                .SetVersion(GitVersion.NuGetVersionV2)
+                .SetVersion(GitVersion.MajorMinorPatch)
                 .SetOutputDirectory(ArtifactsDirectory)
                 .SetConfiguration(Configuration)
                 .EnableIncludeSymbols()
