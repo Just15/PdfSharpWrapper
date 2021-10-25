@@ -116,11 +116,7 @@ class Build : NukeBuild
         .Requires(() => Configuration.Equals(Configuration.Release))
         .Executes(async () =>
         {
-            // TODO: Add nuget package as assets (.nupkg, .symbols.nupkg)
-            // TODO: Create and upload release notes
-            // TODO: Review DependsOn(), TriggeredBy(), Unlisted()
-            // Delete draft release
-
+            ControlFlow.Assert(GitRepository.IsOnMainBranch(), $"Branch isn't on main branch. Current branch: {GitVersion.BranchName}");
             ControlFlow.Assert(GitVersion.BranchName.Equals("master"), "Branch isn't 'master'.");
 
             GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)))
@@ -132,8 +128,7 @@ class Build : NukeBuild
             {
                 TargetCommitish = GitVersion.Sha,
                 Name = GitVersion.MajorMinorPatch,
-                //Body = @$"See release notes in [docs](https://github.com/Just15/GitVersion-PdfSharpWrapper/blob/master/README.md)",
-                Body = @$"See release notes in ...",
+                Body = "Add release notes...",
                 Draft = true,
             };
 
@@ -171,7 +166,7 @@ class Build : NukeBuild
         .Requires(() => Source)
         .Requires(() => SymbolSource)
         .Requires(() => NugetApiKey)
-        //.TriggeredBy(CreateGitHubRelease)
+        .TriggeredBy(CreateGitHubRelease)
         .Unlisted()
         .Executes(() =>
         {
