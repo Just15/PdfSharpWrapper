@@ -6,6 +6,10 @@
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<Content Include="PdfTestTemplate-Radio-Selected-Yes.pdf">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

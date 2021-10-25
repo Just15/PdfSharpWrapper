@@ -14,12 +14,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdfSharpWrapper.Tests", "Pd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfSharpWrapper.Examples.ConsoleApp", "PdfSharpWrapper.Examples.ConsoleApp\PdfSharpWrapper.Examples.ConsoleApp.csproj", "{C6B840A8-69AD-40E1-9893-B25BAFA029B5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "..\build\_build.csproj", "{594E4176-F201-4975-9B0F-0B64FC055D3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{594E4176-F201-4975-9B0F-0B64FC055D3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{594E4176-F201-4975-9B0F-0B64FC055D3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BA67EF4-689F-486F-BF76-E1410B8CD1E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2BA67EF4-689F-486F-BF76-E1410B8CD1E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BA67EF4-689F-486F-BF76-E1410B8CD1E6}.Release|Any CPU.ActiveCfg = Release|Any CPU

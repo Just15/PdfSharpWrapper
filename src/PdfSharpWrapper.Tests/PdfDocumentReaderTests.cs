@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -75,24 +74,6 @@ namespace PdfSharpWrapper.Tests
             // ACT
             // ASSERT
             Assert.That(actual, Is.EqualTo(expected));
-        }
-
-        [Test]
-        public void Read_PdfSignatureField_AsExpected()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Test]
-        public void Read_PdfGenericField_AsExpected()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Test]
-        public void Read_PdfPushButtonField_AsExpected()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -62,12 +62,12 @@ namespace PdfSharpWrapper
             errorMessages = new List<string>();
             var fields = pdfDocument.AcroForm.Fields;
 
-            foreach (var keyValuePair in dictionary)
+            foreach (var key in dictionary.Keys)
             {
-                var field = fields[keyValuePair.Key];
+                var field = fields[key];
                 if (field == null)
                 {
-                    var errorMessage = $"Field is null for key: {keyValuePair.Key}.";
+                    var errorMessage = $"Field is null for key: {key}.";
                     Logger.LogInformation(errorMessage);
                     errorMessages.Add(errorMessage);
                 }
@@ -133,7 +133,7 @@ namespace PdfSharpWrapper
 
                             break;
                         default:
-                            var errorMessage = $"Unexpected field type of '{field.GetType()}' for '{keyValuePair.Key}'.";
+                            var errorMessage = $"Unexpected field type of '{field.GetType()}' for '{key}'.";
                             Logger.LogError(errorMessage);
                             errorMessages.Add(errorMessage);
                             break;

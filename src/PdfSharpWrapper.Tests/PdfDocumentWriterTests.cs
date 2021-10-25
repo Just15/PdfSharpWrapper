@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -131,7 +130,7 @@ namespace PdfSharpWrapper.Tests
         [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_COMBO_BOX_FIELD, "a", "a")]
         [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_COMBO_BOX_FIELD, "b", "b")]
         [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_COMBO_BOX_FIELD, "c", "c")]
-        [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_COMBO_BOX_FIELD, "DoesntExist", "a")]
+        [TestCase(PdfSharpWrapperSetupFixture.UNCHECKED_COMBO_BOX_FIELD, "DoesntExist", null)]
         public void Write_PdfComboBoxField_AsExpected(string field, string value, string expected)
         {
             // ARRANGE
@@ -168,24 +167,6 @@ namespace PdfSharpWrapper.Tests
             // ACT
             // ASSERT
             Assert.That(actual, Is.EqualTo(expected));
-        }
-
-        [Test]
-        public void Write_PdfSignatureField_AsExpected()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Test]
-        public void Write_PdfGenericField_AsExpected()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Test]
-        public void Write_PdfPushButtonField_AsExpected()
-        {
-            throw new NotImplementedException();
         }
     }
 }
