@@ -47,7 +47,8 @@ class Build : NukeBuild
     [GitRepository] readonly GitRepository GitRepository;
 
     [Parameter] readonly string GitHubAuthenticationToken;
-    [Parameter] readonly string NugetApiUrl = "https://api.nuget.org/v3/index.json";
+    [Parameter] readonly string Source = "https://api.nuget.org/v3/index.json";
+    [Parameter] readonly string SymbolSource = "https://nuget.smbsrc.net/";
     [Parameter] readonly string NugetApiKey;
     Release createdRelease;
 
@@ -120,6 +121,8 @@ class Build : NukeBuild
             // TODO: Review DependsOn(), TriggeredBy(), Unlisted()
             // Delete draft release
 
+            ControlFlow.Assert(GitVersion.BranchName.Equals("master"), "Branch isn't 'master'.");
+
             GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)))
             {
                 Credentials = new Credentials(GitHubAuthenticationToken)
@@ -165,11 +168,10 @@ class Build : NukeBuild
         });
 
     Target UploadNuGetPackage => _ => _
-        .DependsOn(Pack)
-        .Requires(() => NugetApiUrl)
+        .Requires(() => Source)
+        .Requires(() => SymbolSource)
         .Requires(() => NugetApiKey)
-        .Requires(() => Configuration.Equals(Configuration.Release))
-        .TriggeredBy(CreateGitHubRelease)
+        //.TriggeredBy(CreateGitHubRelease)
         .Unlisted()
         .Executes(() =>
         {
@@ -179,7 +181,8 @@ class Build : NukeBuild
                 {
                     DotNetNuGetPush(s => s
                         .SetTargetPath(x)
-                        .SetSource(NugetApiUrl)
+                        .SetSource(Source)
+                        .SetSymbolSource(SymbolSource)
                         .SetApiKey(NugetApiKey)
                     );
                 });
