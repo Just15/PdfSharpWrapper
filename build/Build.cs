@@ -116,7 +116,6 @@ class Build : NukeBuild
         .Requires(() => Configuration.Equals(Configuration.Release))
         .Executes(async () =>
         {
-            ControlFlow.Assert(GitRepository.IsOnMainBranch(), $"Branch isn't on main branch. Current branch: {GitVersion.BranchName}");
             ControlFlow.Assert(GitVersion.BranchName.Equals("master"), "Branch isn't 'master'.");
 
             GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(nameof(NukeBuild)))
