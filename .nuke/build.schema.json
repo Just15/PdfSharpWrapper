@@ -52,9 +52,6 @@
         "NugetApiKey": {
           "type": "string"
         },
-        "NugetApiUrl": {
-          "type": "string"
-        },
         "Partition": {
           "type": "string",
           "description": "Partition to use on CI"
@@ -94,6 +91,12 @@
         "Solution": {
           "type": "string",
           "description": "Path to a solution file that is automatically loaded"
+        },
+        "Source": {
+          "type": "string"
+        },
+        "SymbolSource": {
+          "type": "string"
         },
         "Target": {
           "type": "array",
