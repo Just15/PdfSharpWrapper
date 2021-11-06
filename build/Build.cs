@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.StaticFiles;
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.Execution;
@@ -13,30 +14,12 @@ using System.IO;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using Microsoft.AspNetCore.StaticFiles;
 
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
 [DotNetVerbosityMapping]
 class Build : NukeBuild
 {
-    // Nuke Build ---------------------------------------------------------------------------------------------------------------
-    //
-    // https://github.com/nuke-build/nuke/blob/2e3ebee5b041bb80d18d41a9da36b7e7d8fd28fc/source/Nuke.GlobalTool/templates/Build.cs
-    //
-    // https://blog.dangl.me/archive/escalating-automation-the-nuclear-option/
-    //
-    // https://www.ariank.dev/create-a-github-release-with-nuke-build-automation-tool/
-    //
-    // https://blog.codingmilitia.com/2020/10/24/2020-10-24-setting-up-a-build-with-nuke/
-    //
-    // https://cfrenzel.com/publishing-nuget-nuke-appveyor/
-    //
-
-    // GitVersion ---------------------------------------------------------------------------------------------------------------
-    //
-    // https://gitversion.net/docs/learn/branching-strategies/gitflow/examples
-
     public static int Main() => Execute<Build>(x => x.Compile);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
