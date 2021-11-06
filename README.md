@@ -2,7 +2,7 @@
 
 PdfSharpWrapper is a wrapper of PdfSharpCore that makes it easier to read and write values to PDF fields. Read and write to a PDF document using a dictionary where the key is the name of the PDF field and the value is the PDF field's value.
 
-Example project: [Here](https://github.com/Just15/PdfSharpWrapper/blob/just15/initial-development/src/PdfSharpWrapper.Examples.ConsoleApp/Program.cs)
+Example project: [Here](https://github.com/Just15/PdfSharpWrapper/blob/main/src/PdfSharpWrapper.Examples.ConsoleApp/Program.cs)
 
 ## Example Usage
 
@@ -38,11 +38,15 @@ bool successWrite = pdfDocumentWriter.Write(@"C:\Path\To\PdfFile.pdf",  new Dict
 
 ![](./docs/ConsoleOutput.png)
 
-## References
-* https://github.com/empira/PDFsharp
-* https://github.com/roceh/PdfSharp.Xamarin
-* https://github.com/ststeiger/PdfSharpCore
-* https://www.pdfescape.com/open/
+## :star: Powered By:
+* [.NET](https://dotnet.microsoft.com/download)
+* [NUKE Build](https://www.nuke.build/index.html)
+* [PdfSharpCore](https://github.com/ststeiger/PdfSharpCore)
+* [NUnit](https://nunit.org/)
+* [Moq](https://github.com/moq/moq4)
+
+## Free Online PFD Editor
+https://www.pdfescape.com/open/
 
 ## License
 
