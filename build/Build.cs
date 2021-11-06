@@ -111,7 +111,7 @@ class Build : NukeBuild
                 TargetCommitish = GitVersion.Sha,
                 Name = GitVersion.MajorMinorPatch,
                 Body = "Add release notes...",
-                Draft = true,
+                //Draft = true,
             };
 
             createdRelease = await GitHubTasks.GitHubClient.Repository.Release.Create(GitRepository.GetGitHubOwner(), GitRepository.GetGitHubName(), newRelease);
@@ -159,7 +159,7 @@ class Build : NukeBuild
                     DotNetNuGetPush(s => s
                         .SetTargetPath(x)
                         .SetSource(Source)
-                        .SetSymbolSource(SymbolSource)
+                        //.SetSymbolSource(SymbolSource)
                         .SetApiKey(NugetApiKey)
                     );
                 });
